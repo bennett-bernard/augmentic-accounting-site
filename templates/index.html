@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Basic Blog</title>
+</head>
+<body>
+    <h1>Welcome to My Blog!</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="/articles/{{ article }}">{{ article|replace(".md", "") }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
