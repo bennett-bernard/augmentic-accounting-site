@@ -1,16 +1,91 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Basic Blog</title>
-</head>
-<body>
-    <h1>Welcome to My Blog!</h1>
-    <ul>
-        {% for article in articles %}
-            <li>
-                <a href="/articles/{{ article }}">{{ article|replace(".md", "") }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Augmentic Accounting - Professional Accounting Services{% endblock %}
+
+{% block content %}
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <div class="nav__logo">Augmentic Accounting</div>
+            <ul class="nav__menu">
+                <li><a href="/" class="nav__link">Home</a></li>
+                <li><a href="#services" class="nav__link">Services</a></li>
+                <li><a href="#about" class="nav__link">About</a></li>
+                <li><a href="#contact" class="nav__link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="section section--hero">
+        <div class="container">
+            <h1>Welcome to Augmentic Accounting</h1>
+            <p class="mb-3">Professional accounting services tailored for your business success. We provide comprehensive financial solutions with precision and expertise.</p>
+            <div class="mb-4">
+                <a href="#contact" class="btn btn--primary">Get Started Today</a>
+                <a href="#services" class="btn btn--secondary">Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="section" id="articles">
+        <div class="container">
+            <h2 class="text-center mb-4">Latest Articles & Insights</h2>
+            <div class="grid grid--3">
+                {% for article in articles %}
+                <div class="card">
+                    <h3 class="card__title">{{ article|replace(".md", "")|replace("_", " ")|title }}</h3>
+                    <p>Discover valuable insights and expert advice on accounting best practices and financial management.</p>
+                    <a href="/articles/{{ article }}" class="btn btn--primary">Read More</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="section" id="services">
+        <div class="container">
+            <h2 class="text-center mb-4">Our Services</h2>
+            <div class="grid grid--2">
+                <div class="card card--featured">
+                    <h3 class="card__title">Tax Planning & Preparation</h3>
+                    <p>Comprehensive tax services to minimize your liability and maximize your returns. We stay current with the latest tax laws and regulations.</p>
+                </div>
+                <div class="card">
+                    <h3 class="card__title">Bookkeeping & Accounting</h3>
+                    <p>Accurate and timely bookkeeping services to keep your financial records organized and compliant.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="grid grid--3">
+                <div>
+                    <h4>Augmentic Accounting</h4>
+                    <p>Professional accounting services with a personal touch.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#services" class="footer__link">Services</a></li>
+                        <li><a href="#about" class="footer__link">About</a></li>
+                        <li><a href="#contact" class="footer__link">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Contact Info</h4>
+                    <p>Email: info@augmenticaccounting.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <p>&copy; 2024 Augmentic Accounting. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
