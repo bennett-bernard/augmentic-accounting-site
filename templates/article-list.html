@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if year and month %}Articles for {{ year }}-{{ "%02d"|format(month|int) }}{% elif year %}Articles for {{ year }}{% else %}All Articles{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Navigation -->
+<nav class="nav">
+    <div class="nav__container">
+        <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
+        <ul class="nav__menu">
+            <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
+            <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
+        </ul>
+    </div>
+</nav>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="mb-3">
+                {% if year and month %}
+                    Articles for {{ year }}-{{ "%02d"|format(month|int) }}
+                {% elif year %}
+                    Articles for {{ year }}
+                {% else %}
+                    All Articles
+                {% endif %}
+            </h1>
+
+            {% if articles %}
+                <div class="grid grid--3">
+                    {% for article in articles %}
+                        <div class="card">
+                            <h3 class="card__title">{{ article.metadata.title or article.slug|replace("-", " ")|title }}</h3>
+                            <p class="text-muted">{{ article.metadata.publish_date or article.metadata.date }}</p>
+                            <a class="btn btn--primary" href="/articles/{{ article.year }}/{{ article.month }}/{{ article.slug }}">Read More</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No articles found.</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+

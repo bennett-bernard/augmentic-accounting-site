@@ -1,42 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}{{ article_title | default("Article") }} - Augmentic Accounting{% endblock %}
+{% block title %}Augmentic Accounting - About{% endblock %}
 
 {% block content %}
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav__container">
-            <div class="nav__logo">Augmentic Accounting</div>
+            <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
             <ul class="nav__menu">
-                <li><a href="/" class="nav__link">Home</a></li>
-                <li><a href="#services" class="nav__link">Services</a></li>
+                <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
                 <li><a href="#about" class="nav__link">About</a></li>
-                <li><a href="#contact" class="nav__link">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Article Header -->
+    <!-- Hero Section -->
     <section class="section section--hero">
         <div class="container">
             <a href="/" class="btn btn--secondary mb-3">← Back to Home</a>
-            <h1>{{ article_title | default("Article") }}</h1>
-            <p class="text-center">Expert insights and professional advice for your accounting needs</p>
+            <h1>About Augmentic Accounting</h1>
+            <p class="text-center">Learn more about this site and what we aim to provide.</p>
         </div>
     </section>
 
-    <!-- Article Content -->
-    <section class="section">
+    <!-- About Content -->
+    <section class="section" id="about">
         <div class="container">
             <article class="card" style="max-width: 800px; margin: 0 auto;">
                 <div class="article-content">
-                    {{ content | safe }}
+                    <p>Augmentic Accounting is a simple, content-focused website designed to share practical insights about accounting, finance operations, and tooling. It is built with FastAPI and Jinja templates, with a clean, responsive UI for a pleasant reading experience.</p>
+                    <p>Here you will find articles, guides, and thought pieces that help founders, operators, and finance teams understand key accounting concepts and apply them effectively. Our goal is to make reliable accounting knowledge accessible and easy to digest.</p>
+                    <p>If you enjoy the content, feel free to browse the latest articles on the home page and check back for updates as new posts are published.</p>
                 </div>
             </article>
 
-            <!-- Article Footer -->
             <div class="text-center mt-4">
-                <a href="/" class="btn btn--primary">Back to All Articles</a>
+                <a href="/" class="btn btn--primary">Back to Home</a>
             </div>
         </div>
     </section>

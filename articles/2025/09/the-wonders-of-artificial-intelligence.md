@@ -1,3 +1,11 @@
+---
+title: The Wonders of Artificial Intelligence
+subtitle: How we can leverage programming basics to unlock true accounting productivity
+author: Bennett Bernard
+date: 2025-09-08
+tags: [ai, programming, code]
+last_edited: 2025-09-08
+---
 # The Wonders of Artificial Intelligence
 
 Artificial Intelligence (AI) has rapidly transformed the way we live, work, and interact with technology. From virtual assistants to self-driving cars, AI is at the forefront of innovation.

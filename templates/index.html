@@ -6,12 +6,10 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav__container">
-            <div class="nav__logo">Augmentic Accounting</div>
+            <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
             <ul class="nav__menu">
-                <li><a href="/" class="nav__link">Home</a></li>
-                <li><a href="#services" class="nav__link">Services</a></li>
-                <li><a href="#about" class="nav__link">About</a></li>
-                <li><a href="#contact" class="nav__link">Contact</a></li>
+                <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
             </ul>
         </div>
     </nav>
@@ -22,8 +20,7 @@
             <h1>Welcome to Augmentic Accounting</h1>
             <p class="mb-3">Professional accounting services tailored for your business success. We provide comprehensive financial solutions with precision and expertise.</p>
             <div class="mb-4">
-                <a href="#contact" class="btn btn--primary">Get Started Today</a>
-                <a href="#services" class="btn btn--secondary">Our Services</a>
+                <a href="{{url_for('list_all_articles')}}" class="btn btn--secondary">View Articles</a>
             </div>
         </div>
     </section>
@@ -35,16 +32,16 @@
             <div class="grid grid--3">
                 {% for article in articles %}
                 <div class="card">
-                    <h3 class="card__title">{{ article|replace(".md", "")|replace("_", " ")|title }}</h3>
+                    <h3 class="card__title">{{ article.title }}</h3>
                     <p>Discover valuable insights and expert advice on accounting best practices and financial management.</p>
-                    <a href="/articles/{{ article }}" class="btn btn--primary">Read More</a>
+                    <a href="{{ url_for('get_article', year=article.year, month=article.month, article_name=article.slug) }}" class="btn btn--primary">Read More</a>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </section>
 
-    <!-- Services Preview -->
+    <!-- Services Preview
     <section class="section" id="services">
         <div class="container">
             <h2 class="text-center mb-4">Our Services</h2>
@@ -59,7 +56,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Footer -->
     <footer class="footer">

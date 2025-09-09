@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article_title | default("Article") }} - Augmentic Accounting{% endblock %}
+
+{% block content %}
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
+            <ul class="nav__menu">
+                <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="section section--hero">
+        <div class="container">
+            <a href="{{ url_for('home') }}" class="btn btn--secondary mb-3">← Back to Home</a>
+            <h1>{{ metadata.title }}</h1>
+            <p class="text-center">{{ metadata.subtitle }}</p>
+            <p class="text-center">By {{ metadata.author }} on {{ metadata.date }}</p>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="section">
+        <div class="container">
+            <article class="card" style="max-width: 800px; margin: 0 auto;">
+                <div class="article-content">
+                    {{ content | safe }}
+                </div>
+            </article>
+
+            <!-- Article Footer -->
+            <div class="text-center mt-4">
+                <a href="{{ url_for('list_all_articles') }}" class="btn btn--primary">Back to All Articles</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="grid grid--3">
+                <div>
+                    <h4>Augmentic Accounting</h4>
+                    <p>Professional accounting services with a personal touch.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}" class="footer__link">Home</a></li>
+                        <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Contact Info</h4>
+                    <p>Email: info@augmenticaccounting.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <p>&copy; 2024 Augmentic Accounting. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
