@@ -17,7 +17,7 @@
     <!-- Hero Section -->
     <section class="section section--hero">
         <div class="container">
-            <a href="/" class="btn btn--secondary mb-3">← Back to Home</a>
+            <a href="{{ url_for('home') }}" class="btn btn--secondary mb-3">← Back to Home</a>
             <h1>About Augmentic Accounting</h1>
             <p class="text-center">Learn more about this site and what we aim to provide.</p>
         </div>
@@ -35,7 +35,7 @@
             </article>
 
             <div class="text-center mt-4">
-                <a href="/" class="btn btn--primary">Back to Home</a>
+                <a href="{{ url_for('home') }}" class="btn btn--primary">Back to Home</a>
             </div>
         </div>
     </section>
@@ -51,16 +51,15 @@
                 <div>
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="/" class="footer__link">Home</a></li>
-                        <li><a href="#services" class="footer__link">Services</a></li>
-                        <li><a href="#contact" class="footer__link">Contact</a></li>
+                        <li><a href="{{ url_for('home') }}" class="footer__link">Home</a></li>
+                        <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
                     </ul>
                 </div>
-                <div>
+                <!-- <div>
                     <h4>Contact Info</h4>
                     <p>Email: info@augmenticaccounting.com</p>
                     <p>Phone: (555) 123-4567</p>
-                </div>
+                </div> -->
             </div>
             <div class="text-center mt-3">
                 <p>&copy; 2024 Augmentic Accounting. All rights reserved.</p>
