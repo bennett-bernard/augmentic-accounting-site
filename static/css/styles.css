@@ -19,6 +19,9 @@ body {
     color: #2b2b2b;
     background-color: #ffffff;
     font-size: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -269,6 +272,31 @@ a:hover {
     background-color: #2b2b2b;
     color: #ffffff;
     padding: 3rem 0 1rem;
+    margin-top: auto;
+}
+
+.footer h1,
+.footer h2,
+.footer h3,
+.footer h4,
+.footer h5,
+.footer h6 {
+    color: #ffffff;
+}
+
+.footer p {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer li {
+    margin-bottom: 0.5rem;
 }
 
 .footer__container {
@@ -333,6 +361,14 @@ a:hover {
 
 .fade-in {
     animation: fadeIn 0.6s ease-out;
+}
+
+/* ===== NEWSLETTER EMBED ===== */
+.newsletter-embed-container {
+    max-width: 480px; /* Adjust as needed based on the embed's natural width */
+    margin: 0 auto; /* This centers the div horizontally */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 /* ===== FOCUS STATES ===== */

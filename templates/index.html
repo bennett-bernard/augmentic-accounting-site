@@ -9,6 +9,7 @@
             <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
             <ul class="nav__menu">
                 <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
+                <li><a href="{{ url_for('list_all_articles') }}" class="nav__link">Articles</a></li>
                 <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
             </ul>
         </div>
@@ -19,7 +20,9 @@
         <div class="container">
             <h1>Welcome to Augmentic Accounting</h1>
             <p class="mb-3">Professional accounting services tailored for your business success. We provide comprehensive financial solutions with precision and expertise.</p>
-            <iframe src="https://bennettbernardcpa.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+            <div class="newsletter-embed-container">
+                <script async data-uid="7d979549f0" src="https://augmentic-accounting.kit.com/7d979549f0/index.js"></script>
+            </div>
             <!-- <div class="mb-4">
                 <a href="{{url_for('list_all_articles')}}" class="btn btn--secondary">View Articles</a>
             </div> -->
@@ -42,46 +45,4 @@
         </div>
     </section>
 
-    <!-- Services Preview
-    <section class="section" id="services">
-        <div class="container">
-            <h2 class="text-center mb-4">Our Services</h2>
-            <div class="grid grid--2">
-                <div class="card card--featured">
-                    <h3 class="card__title">Tax Planning & Preparation</h3>
-                    <p>Comprehensive tax services to minimize your liability and maximize your returns. We stay current with the latest tax laws and regulations.</p>
-                </div>
-                <div class="card">
-                    <h3 class="card__title">Bookkeeping & Accounting</h3>
-                    <p>Accurate and timely bookkeeping services to keep your financial records organized and compliant.</p>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer__container">
-            <div class="grid grid--3">
-                <div>
-                    <h4>Augmentic Accounting</h4>
-                    <p>Professional accounting services with a personal touch.</p>
-                </div>
-                <div>
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
-                    </ul>
-                </div>
-                <!-- <div>
-                    <h4>Contact Info</h4>
-                    <p>Email: info@augmenticaccounting.com</p>
-                    <p>Phone: (555) 123-4567</p>
-                </div> -->
-            </div>
-            <div class="text-center mt-3">
-                <p>&copy; 2024 Augmentic Accounting. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 {% endblock %}
