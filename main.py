@@ -2,12 +2,17 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from markdown import markdown
 from fastapi.staticfiles import StaticFiles
+import mimetypes
 import os
 import frontmatter
 from slugify import slugify
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+# Ensure correct MIME types for static assets on minimal images
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("application/javascript", ".js")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
