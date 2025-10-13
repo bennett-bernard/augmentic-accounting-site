@@ -19,13 +19,11 @@
     <section class="section section--hero">
         <div class="container">
             <h1>Welcome to Augmentic Accounting</h1>
-            <p class="mb-3">Professional accounting services tailored for your business success. We provide comprehensive financial solutions with precision and expertise.</p>
-            <div class="newsletter-embed-container">
-                <script async data-uid="7d979549f0" src="https://augmentic-accounting.kit.com/7d979549f0/index.js"></script>
-            </div>
-            <!-- <div class="mb-4">
+            <p class="mb-3">On a mission to push the boundaries of AI and automation in the accounting profession through education and knowledge sharing.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/DWtiI41yKcc?si=OrtaBCNBbl9ZV738" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="mb-4">
                 <a href="{{url_for('list_all_articles')}}" class="btn btn--secondary">View Articles</a>
-            </div> -->
+            </div>
         </div>
     </section>
 
@@ -36,8 +34,8 @@
             <div class="grid grid--3">
                 {% for article in articles %}
                 <div class="card">
-                    <h3 class="card__title">{{ article.title }}</h3>
-                    <p>Discover valuable insights and expert advice on accounting best practices and financial management.</p>
+                    <h3 class="card__title">{{ article.metadata.title or article.slug|replace("-", " ")|title }}</h3>
+                    <p>{{ article.metadata.subtitle }}</p>
                     <a href="{{ url_for('get_article', year=article.year, month=article.month, article_name=article.slug) }}" class="btn btn--primary">Read More</a>
                 </div>
                 {% endfor %}

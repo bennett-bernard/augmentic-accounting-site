@@ -3,8 +3,12 @@ title: What I Am Learning This Week, 10/13/25
 subtitle: Diving into the docs for OpenAI's Agent SDK, Apps SDK, and a few curveballs
 author: Bennett Bernard
 date: 2025-10-13
+audio_src: audio/AugmenticBlogRecording20251013_audio.m4a
+audio_type: audio/mp4
+audio_title: What I Am Learning This Week, 10/13/25 (audio)
+audio_duration: 0:03:45
 tags: [openai, programming, marketing, personal development]
-last_edited: 2025-10-11
+last_edited: 2025-10-13
 ---
 ## Some Big News With OpenAI... 
 
@@ -12,7 +16,7 @@ On October 6th this year, OpenAI showcased their Apps SDK and Agent Builder prod
 
 **Why this is huge news**
 
-How people use the internet is changing dramatically and quickly. Continuously over the next few years how users shop, research, socialize, and everything inbetween, will shift from the web-based experience to an AI-based experience. 
+How people use the internet is changing dramatically and quickly. Continuously over the next few years how users shop, research, socialize, and everything inbetween, will shift from the web-based experience to an AI-based experience. Now, I can hear some contrarians already...
 >"But, this already was the case with Mobile development in the 2010's!" 
 
 To me, this feels similar but on a dramatically different ramp and experience. Having lived that shift from web to mobile during the 2010's, it largely felt like the web-based experiences were just ported into the smartphone skeleton. Sure, the UI is different, but beyond that a web app and a mobile app effectively ask the same thing of the user... the user is in the driver seat and their effort is required to accomplish whatever task or reach whatever their goal is.

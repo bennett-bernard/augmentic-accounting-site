@@ -17,14 +17,23 @@
     </nav>
 
     <!-- Article Header -->
-    <section class="section section--hero">
-        <div class="container">
-            <a href="{{ url_for('home') }}" class="btn btn--secondary mb-3">← Back to Home</a>
-            <h1>{{ metadata.title }}</h1>
-            <p class="text-center">{{ metadata.subtitle }}</p>
-            <p class="text-center">By {{ metadata.author }} on {{ metadata.date }}</p>
-        </div>
-    </section>
+        <!-- Article Header -->
+        <section class="section section--hero">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="btn btn--secondary mb-3">← Back to Home</a>
+                <h1>{{ metadata.title }}</h1>
+                <p class="text-center">{{ metadata.subtitle }}</p>
+                <p class="text-center">By {{ metadata.author }} on {{ metadata.date }}</p>
+    
+                {% if metadata.audio_src %}
+                <div class="audio-player mt-2">
+                    {% set raw = metadata.audio_src %}
+                    {% set path = raw if '/' in raw else 'audio/' ~ raw %}
+                    <audio controls preload="metadata" aria-label="Article audio" src="{{ url_for('static', path=path) }}"></audio>
+                </div>
+                {% endif %}
+            </div>
+        </section>
 
     <!-- Article Content -->
     <section class="section">
