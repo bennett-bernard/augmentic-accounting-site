@@ -80,6 +80,6 @@ Accounting data in a warehouse typically lives in two tables:
 - **Journal Entries** -- Header info: JE number, posting date, who posted it, description
 - **Journal Entry Lines** -- Line detail: GL account, debit/credit, cost center, memo
 
-Joined by a common journal entry ID. A trial balance is just a SUM of debits and credits grouped by GL account up to a date. Understanding this structure is foundational to everything we build in the [next post](/posts/2026/02/claude-code-reconciliation-in-action).
+Joined by a common journal entry ID. A trial balance is just a SUM of debits and credits grouped by GL account up to a date. Understanding this structure is foundational to everything we build in the [next post](/articles/2026/02/claude-code-reconciliation-in-action).
 
 -Bennett

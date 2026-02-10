@@ -5,7 +5,7 @@ tags: [Accounting, Technology, Claude Code]
 excerpt: "Querying the GL in natural language, building a reconciliation skill, and running cash and hedging recons live -- the good, the bad, and the ugly"
 ---
 
-This is the second post in my Claude Code series. If you haven't read the [first post](/posts/2026/02/claude-code-for-accountants-getting-started) covering what Claude Code is and the Core Four framework, start there. Here, we go hands-on: querying the general ledger in natural language and running actual reconciliations.
+This is the second post in my Claude Code series. If you haven't read the [first post](/articles/2026/02/claude-code-for-accountants-getting-started) covering what Claude Code is and the Core Four framework, start there. Here, we go hands-on: querying the general ledger in natural language and running actual reconciliations.
 
 ## Talking to Your General Ledger
 
