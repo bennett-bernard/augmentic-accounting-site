@@ -4,41 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Augmentic Accounting{% endblock %}</title>
+    <meta name="description" content="{% block description %}Practical insights on AI, automation, and modern accounting workflows.{% endblock %}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
     <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script defer src="{{ url_for('static', path='js/site.js') }}"></script>
 </head>
 <body>
-    {% block content %}{% endblock %}
-    {% block footer %}
-    <footer class="footer">
-        <div class="footer__container">
-            <div class="grid grid--3">
-                <div>
-                    <h4>Augmentic Accounting</h4>
-                    <p>Professional accounting services with a personal touch.</p>
+    {% set current_path = request.url.path %}
+    <div class="site-shell">
+        <header class="site-header">
+            <nav class="nav">
+                <div class="container nav__container">
+                    <a href="{{ url_for('home') }}" class="nav__brand" aria-label="Augmentic Accounting home">
+                        <span class="nav__brand-mark">A</span>
+                        <span class="nav__brand-copy">
+                            <span class="nav__logo">Augmentic Accounting</span>
+                        </span>
+                    </a>
+
+                    <button
+                        class="nav__toggle"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="primary-nav"
+                        aria-label="Toggle navigation"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+
+                    <div class="nav__panel" id="primary-nav">
+                        <a href="{{ url_for('home') }}" class="nav__link {% if current_path == '/' %}is-active{% endif %}">Home</a>
+                        <a href="{{ url_for('list_all_articles') }}" class="nav__link {% if current_path[:9] == '/articles' %}is-active{% endif %}">Articles</a>
+                        <a href="{{ url_for('about') }}" class="nav__link {% if current_path == '/about' %}is-active{% endif %}">About</a>
+                        <a href="{{ url_for('list_all_articles') }}" class="btn btn--nav">Explore Articles</a>
+                    </div>
                 </div>
-                <div>
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="{{ url_for('home') }}" class="footer__link">Home</a></li>
-                        <li><a href="{{ url_for('list_all_articles') }}" class="footer__link">Articles</a></li>
-                        <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
-                    </ul>
+            </nav>
+        </header>
+
+        <main class="page-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <div class="container footer__container">
+                <div class="footer__top">
+                    <div>
+                        <p class="eyebrow eyebrow--light">Augmentic Accounting</p>
+                        <h2>Practical ideas for a more modern accounting function.</h2>
+                        <p class="footer__lede">Thoughtful writing on AI, automation, and the systems work behind better finance operations.</p>
+                    </div>
+                    <div class="footer__contact-card">
+                        <p class="footer__label">Contact</p>
+                        <a href="mailto:bennett@catalystcfo.co" class="footer__contact-link">bennett@catalystcfo.co</a>
+                        <a href="tel:+14809335878" class="footer__contact-link">(480) 933-5878</a>
+                    </div>
                 </div>
-                <div>
-                    <h4>Contact</h4>
-                    <p>Email: bennett@catalystcfo.co</p>
-                    <p>Phone: (480) 933-5878</p>
+
+                <div class="footer__grid">
+                    <div>
+                        <h3>Navigate</h3>
+                        <ul class="footer__list">
+                            <li><a href="{{ url_for('home') }}" class="footer__link">Home</a></li>
+                            <li><a href="{{ url_for('list_all_articles') }}" class="footer__link">Articles</a></li>
+                            <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Focus</h3>
+                        <ul class="footer__list">
+                            <li>AI workflows for accountants</li>
+                            <li>Automation ideas that hold up in practice</li>
+                            <li>Human judgment in modern finance teams</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Built For</h3>
+                        <ul class="footer__list">
+                            <li>Controllers and operators</li>
+                            <li>Accountants exploring AI tools</li>
+                            <li>Teams upgrading their processes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer__bottom">
+                    <p>&copy; Catalyst CFO LLC. All rights reserved.</p>
                 </div>
             </div>
-            <div class="text-center mt-3">
-                <p>&copy; 2024 Catalyst CFO LLC. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-    {% endblock %}
+        </footer>
+    </div>
 </body>
 </html>

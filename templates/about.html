@@ -1,47 +1,68 @@
 {% extends "base.html" %}
 
-{% block title %}Augmentic Accounting - About{% endblock %}
+{% block title %}About | Augmentic Accounting{% endblock %}
+{% block description %}Learn more about Augmentic Accounting and the thinking behind its focus on AI and automation in accounting.{% endblock %}
 
 {% block content %}
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav__container">
-            <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
-            <ul class="nav__menu">
-                <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
-                <li><a href="{{ url_for('list_all_articles') }}" class="nav__link">Articles</a></li>
-                <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
-            </ul>
+<section class="page-hero section">
+    <div class="container page-hero__grid">
+        <div class="reveal">
+            <a href="{{ url_for('home') }}" class="breadcrumb-link">Back to Home</a>
+            <p class="eyebrow">About</p>
+            <h1>Why Augmentic Accounting exists.</h1>
+            <p class="page-hero__lead">The site is built to help accountants and finance professionals understand where AI, automation, and workflow design create real leverage inside the profession.</p>
         </div>
-    </nav>
+        <aside class="spotlight-card reveal reveal--delay">
+            <p class="spotlight-card__label">Built by</p>
+            <h2>Bennett Bernard, CPA</h2>
+            <p>More than a decade in accounting, paired with a strong interest in practical AI and automation.</p>
+        </aside>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <section class="section section--hero">
-        <div class="container">
-            <a href="{{ url_for('home') }}" class="btn btn--secondary mb-3">← Back to Home</a>
-            <h1>About Augmentic Accounting</h1>
-            <p class="text-center">Learn more about this site and what we aim to provide.</p>
-        </div>
-    </section>
+<section class="section section--soft">
+    <div class="container about-grid">
+        <article class="content-surface reveal">
+            <div class="article-content article-content--tight">
+                <p>Augmentic Accounting is a website dedicated to sharing knowledge and insights about AI and automation in the accounting profession.</p>
+                <p>Written by Bennett Bernard, a CPA with over a decade of experience in the accounting profession, the site is intended to bridge hands-on accounting work with the rapidly changing world of modern tooling.</p>
+                <p>By sharing practical ideas and showcasing real applications of AI and automation, the goal is to help accounting professionals upskill, think more clearly about where the field is moving, and stay ahead of the curve.</p>
+            </div>
+        </article>
 
-    <!-- About Content -->
-    <section class="section" id="about">
-        <div class="container">
-            <article class="card" style="max-width: 800px; margin: 0 auto;">
-                <div class="article-content">
-                    <p>Augmentic Accounting is a website dedicated to sharing knowledge and insights about AI and automation in
-                         the accounting profession.</p>
-                    <p>Written by myself, Bennett Bernard, a CPA with over a decade of experience in the accounting profession as well 
-                        as a passion for AI and automation.</p>
-                    <p>By sharing sharing knowledge and showcasing practical applications of AI and automation in the accounting profession, 
-                        I hope to help accounting professionals upskill themselves and stay ahead of the curve.</p>
-                </div>
+        <div class="stack">
+            <article class="feature-card reveal reveal--delay">
+                <span class="feature-card__index">01</span>
+                <h3>Education</h3>
+                <p>Translate new tools and concepts into language that makes sense for accountants.</p>
             </article>
+            <article class="feature-card reveal reveal--delay-2">
+                <span class="feature-card__index">02</span>
+                <h3>Application</h3>
+                <p>Show how AI and automation can support work like reconciliations, reporting, and data access.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay-3">
+                <span class="feature-card__index">03</span>
+                <h3>Perspective</h3>
+                <p>Keep the emphasis on thoughtful adoption instead of empty hype.</p>
+            </article>
+        </div>
+    </div>
+</section>
 
-            <div class="text-center mt-4">
-                <a href="{{ url_for('home') }}" class="btn btn--primary">Back to Home</a>
+<section class="section">
+    <div class="container">
+        <div class="cta-band reveal">
+            <div>
+                <p class="eyebrow">Next step</p>
+                <h2>Jump into the writing.</h2>
+                <p>The archive is the fastest way to see the subjects, examples, and workflows the site is exploring right now.</p>
+            </div>
+            <div class="button-row button-row--compact">
+                <a href="{{ url_for('list_all_articles') }}" class="btn btn--primary">View all articles</a>
+                <a href="{{ url_for('home') }}" class="btn btn--secondary">Return home</a>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
 {% endblock %}

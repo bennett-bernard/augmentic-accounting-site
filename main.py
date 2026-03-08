@@ -45,6 +45,16 @@ def home(request: Request):
                                 "metadata": post.metadata
                             })
 
+    # Surface the newest posts first on the homepage.
+    articles.sort(
+        key=lambda a: str(
+            a.get("metadata", {}).get("publish_date")
+            or a.get("metadata", {}).get("date")
+            or ""
+        ),
+        reverse=True,
+    )
+
     return templates.TemplateResponse("index.html", {"request": request, "articles": articles})
 
 @app.get("/about")

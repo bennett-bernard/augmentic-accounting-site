@@ -1,25 +1,24 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {% if year and month %}Articles for {{ year }}-{{ "%02d"|format(month|int) }}{% elif year %}Articles for {{ year }}{% else %}All Articles{% endif %}
+    {% if year and month %}
+        Articles for {{ year }}-{{ "%02d"|format(month|int) }} | Augmentic Accounting
+    {% elif year %}
+        Articles for {{ year }} | Augmentic Accounting
+    {% else %}
+        All Articles | Augmentic Accounting
+    {% endif %}
 {% endblock %}
 
-{% block content %}
-<!-- Navigation -->
-<nav class="nav">
-    <div class="nav__container">
-        <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
-        <ul class="nav__menu">
-            <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
-            <li><a href="{{ url_for('list_all_articles') }}" class="nav__link">Articles</a></li>
-            <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
-        </ul>
-    </div>
-</nav>
+{% block description %}Browse the Augmentic Accounting article archive for writing on AI, automation, and accounting workflows.{% endblock %}
 
-    <section class="section">
-        <div class="container">
-            <h1 class="mb-3">
+{% block content %}
+<section class="page-hero section">
+    <div class="container page-hero__grid page-hero__grid--compact">
+        <div class="reveal">
+            <a href="{{ url_for('home') }}" class="breadcrumb-link">Back to Home</a>
+            <p class="eyebrow">Article Archive</p>
+            <h1>
                 {% if year and month %}
                     Articles for {{ year }}-{{ "%02d"|format(month|int) }}
                 {% elif year %}
@@ -28,22 +27,42 @@
                     All Articles
                 {% endif %}
             </h1>
-
-            {% if articles %}
-                <div class="grid grid--3">
-                    {% for article in articles %}
-                        <div class="card">
-                            <h3 class="card__title">{{ article.metadata.title or article.slug|replace("-", " ")|title }}</h3>
-                            <p class="text-muted">{{ article.metadata.publish_date or article.metadata.date }}</p>
-                            <a class="btn btn--primary" href="/articles/{{ article.year }}/{{ article.month }}/{{ article.slug }}">Read More</a>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p>No articles found.</p>
-            {% endif %}
+            <p class="page-hero__lead">Practical writing on AI, automation, and the operational side of modern accounting.</p>
         </div>
-    </section>
+        <div class="metric-card reveal reveal--delay">
+            <span class="metric-card__value">{{ articles|length }}</span>
+            <span class="metric-card__label">articles in this view</span>
+        </div>
+    </div>
+</section>
 
+<section class="section section--soft">
+    <div class="container">
+        {% if articles %}
+            <div class="article-grid article-grid--archive">
+                {% for article in articles %}
+                <article class="article-card reveal">
+                    <div class="article-card__topline">
+                        <span class="pill pill--soft">{{ article.metadata.publish_date or article.metadata.date or article.year ~ '-' ~ article.month }}</span>
+                        {% if article.metadata.tags %}
+                            <span class="article-card__tag">{{ article.metadata.tags[0] }}</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="article-card__title">{{ article.metadata.title or article.slug|replace('-', ' ')|title }}</h2>
+                    <p class="article-card__excerpt">{{ article.metadata.excerpt or article.metadata.subtitle or 'Practical thinking on AI and automation in the accounting profession.' }}</p>
+                    <div class="article-card__footer">
+                        <a class="text-link" href="{{ url_for('get_article', year=article.year, month=article.month, article_name=article.slug) }}">Read article</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state reveal">
+                <h2>No articles found.</h2>
+                <p>There are no posts in this archive view yet. Try the full archive or check back later.</p>
+                <a href="{{ url_for('list_all_articles') }}" class="btn btn--primary">View all articles</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}
-

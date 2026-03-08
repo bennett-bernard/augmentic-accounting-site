@@ -1,46 +1,157 @@
 {% extends "base.html" %}
 
-{% block title %}Augmentic Accounting - Professional Accounting Services{% endblock %}
+{% block title %}Augmentic Accounting | AI, Automation, and Accounting Insights{% endblock %}
+{% block description %}Augmentic Accounting shares practical ideas on AI, automation, and modern accounting workflows.{% endblock %}
 
 {% block content %}
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav__container">
-            <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
-            <ul class="nav__menu">
-                <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
-                <li><a href="{{ url_for('list_all_articles') }}" class="nav__link">Articles</a></li>
-                <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="section section--hero">
-        <div class="container">
-            <h1>Welcome to Augmentic Accounting</h1>
-            <p class="mb-3">On a mission to push the boundaries of AI and automation in the accounting profession through education and knowledge sharing.</p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/DWtiI41yKcc?si=OrtaBCNBbl9ZV738" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <div class="mb-4">
-                <a href="{{url_for('list_all_articles')}}" class="btn btn--secondary">View Articles</a>
+<section class="hero section">
+    <div class="container hero__grid">
+        <div class="hero__content reveal">
+            <p class="eyebrow">AI + Automation for Accountants</p>
+            <h1 class="hero__title">Modern accounting insight, designed for how finance teams actually work.</h1>
+            <p class="hero__lede">Augmentic Accounting explores practical ways to use AI and automation without losing the judgment, rigor, and clarity that good accounting work depends on.</p>
+            <div class="button-row">
+                <a href="{{ url_for('list_all_articles') }}" class="btn btn--primary">Read the latest articles</a>
+                <a href="{{ url_for('about') }}" class="btn btn--secondary">About the site</a>
             </div>
-        </div>
-    </section>
-
-    <!-- Articles Section -->
-    <section class="section" id="articles">
-        <div class="container">
-            <h2 class="text-center mb-4">Latest Articles & Insights</h2>
-            <div class="grid grid--3">
-                {% for article in articles %}
-                <div class="card">
-                    <h3 class="card__title">{{ article.metadata.title or article.slug|replace("-", " ")|title }}</h3>
-                    <p>{{ article.metadata.subtitle }}</p>
-                    <a href="{{ url_for('get_article', year=article.year, month=article.month, article_name=article.slug) }}" class="btn btn--primary">Read More</a>
+            <div class="signal-grid">
+                <div class="signal-card">
+                    <span class="signal-card__label">Published insights</span>
+                    <strong class="signal-card__value">{{ articles|length }}</strong>
                 </div>
-                {% endfor %}
+                <div class="signal-card">
+                    <span class="signal-card__label">Primary lens</span>
+                    <strong class="signal-card__value signal-card__value--small">Accounting x AI x automation</strong>
+                </div>
+                <div class="signal-card">
+                    <span class="signal-card__label">Style</span>
+                    <strong class="signal-card__value signal-card__value--small">Practical, operator-first, current</strong>
+                </div>
             </div>
         </div>
-    </section>
 
+        <div class="hero__media reveal reveal--delay">
+            <div class="media-card">
+                <div class="media-card__header">
+                    <span class="pill">Featured video</span>
+                    <span class="media-card__caption">Start with the broader perspective</span>
+                </div>
+                <div class="embed-shell">
+                    <iframe src="https://www.youtube.com/embed/DWtiI41yKcc?si=OrtaBCNBbl9ZV738" title="Augmentic Accounting featured video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="media-card__footer">
+                    <div>
+                        <p class="media-card__label">What you will find here</p>
+                        <p class="media-card__text">Clear walkthroughs, implementation ideas, and accounting-specific commentary on modern tooling.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--offerings">
+    <div class="container">
+        <div class="offerings-band reveal">
+            <div class="offerings-band__intro">
+                <p class="eyebrow">Offerings</p>
+                <h2>Three ways to engage with Augmentic.</h2>
+                <p>Whether you want structured learning, direct guidance, or practical material to work from, the homepage now makes those paths explicit.</p>
+            </div>
+
+            <div class="offerings-grid">
+                <article class="offering-card">
+                    <span class="offering-card__label">01</span>
+                    <h3>Courses</h3>
+                    <p>Structured learning for accountants who want a clear path into AI, automation, and modern workflow design.</p>
+                </article>
+                <article class="offering-card">
+                    <span class="offering-card__label">02</span>
+                    <h3>Coaching</h3>
+                    <p>Direct support for professionals and teams who want help applying new tools in a practical, disciplined way.</p>
+                </article>
+                <article class="offering-card">
+                    <span class="offering-card__label">03</span>
+                    <h3>Resources</h3>
+                    <p>Articles, examples, and supporting materials built to help you move from ideas into implementation.</p>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container">
+        <div class="section-heading reveal">
+            <p class="eyebrow">Why this feels different</p>
+            <h2>Built to be more useful than generic tech commentary.</h2>
+            <p>Every section is focused on helping accounting professionals make sense of fast-moving tools without turning the site into a trend report.</p>
+        </div>
+
+        <div class="feature-grid">
+            <article class="feature-card reveal">
+                <span class="feature-card__index">01</span>
+                <h3>Practical walkthroughs</h3>
+                <p>Posts stay grounded in how real workflows, reconciliations, reporting, and data access actually work inside finance teams.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay">
+                <span class="feature-card__index">02</span>
+                <h3>Modern but measured</h3>
+                <p>The focus is on tools and methods worth understanding, not novelty for novelty's sake.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay-2">
+                <span class="feature-card__index">03</span>
+                <h3>Responsive by design</h3>
+                <p>The reading experience is tuned for desktop and mobile so articles, video, and navigation stay clear wherever people land.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="articles">
+    <div class="container">
+        <div class="section-heading section-heading--split reveal">
+            <div>
+                <p class="eyebrow">Latest writing</p>
+                <h2>Recent articles and insights.</h2>
+                <p>Start with the newest posts, then jump into the archive when you want the full set.</p>
+            </div>
+            <a href="{{ url_for('list_all_articles') }}" class="btn btn--ghost">Browse the archive</a>
+        </div>
+
+        <div class="article-grid">
+            {% for article in articles[:3] %}
+            <article class="article-card reveal">
+                <div class="article-card__topline">
+                    <span class="pill pill--soft">{{ article.metadata.publish_date or article.metadata.date or article.year ~ '-' ~ article.month }}</span>
+                    {% if article.metadata.tags %}
+                        <span class="article-card__tag">{{ article.metadata.tags[0] }}</span>
+                    {% endif %}
+                </div>
+                <h3 class="article-card__title">{{ article.metadata.title or article.slug|replace('-', ' ')|title }}</h3>
+                <p class="article-card__excerpt">{{ article.metadata.excerpt or article.metadata.subtitle or 'Practical thinking on AI and automation in the accounting profession.' }}</p>
+                <div class="article-card__footer">
+                    <a href="{{ url_for('get_article', year=article.year, month=article.month, article_name=article.slug) }}" class="text-link">Read article</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cta-band reveal">
+            <div>
+                <p class="eyebrow">Keep exploring</p>
+                <h2>Want the background on the site and the perspective behind it?</h2>
+                <p>Read more about the mission, the author, and why Augmentic Accounting is focused on AI and automation inside the profession.</p>
+            </div>
+            <div class="button-row button-row--compact">
+                <a href="{{ url_for('about') }}" class="btn btn--primary">Learn about Augmentic</a>
+                <a href="mailto:bennett@catalystcfo.co" class="btn btn--secondary">Get in touch</a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
