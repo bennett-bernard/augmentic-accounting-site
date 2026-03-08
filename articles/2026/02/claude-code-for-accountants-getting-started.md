@@ -27,7 +27,7 @@ Once installed, open your terminal, type `claude`, trust the files, and you're i
 When thinking about building things with AI, I lean on a framework I'm calling the "Core Four" -- inspired by a YouTube channel called IndyDevDan (highly recommend).
 
 ### 1. Model
-Your AI engine. In Claude Code, I use Opus 4.5. ChatGPT users are probably on GPT 5.2, Gemini users on Gemini III. Switching models is trivial in Claude Code. And there are other CLI tools too -- Codex from OpenAI, Open Code (open source, multi-model) -- but Claude Code is the flagship right now.
+Your AI engine. In Claude Code, I use Opus 4.5. ChatGPT users are probably on GPT 5.2, Gemini users on Gemini 3. Switching models is trivial in Claude Code. And there are other CLI tools too -- Codex from OpenAI, Open Code (open source, multi-model) -- but Claude Code is the flagship right now.
 
 ### 2. Context
 The foundational knowledge your AI draws upon. Think of it like *your* professional context -- education, work experience, things learned on the job. In Claude Code, you provide this through a `CLAUDE.md` file.
