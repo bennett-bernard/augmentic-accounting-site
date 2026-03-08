@@ -1,53 +1,64 @@
 {% extends "base.html" %}
 
-{% block title %}{{ article_title | default("Article") }} - Augmentic Accounting{% endblock %}
+{% block title %}{{ metadata.title | default('Article') }} | Augmentic Accounting{% endblock %}
+{% block description %}{{ metadata.excerpt or metadata.subtitle or 'Article from Augmentic Accounting.' }}{% endblock %}
 
 {% block content %}
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav__container">
-            <a href="{{ url_for('home') }}" class="nav__logo">Augmentic Accounting</a>
-            <ul class="nav__menu">
-                <li><a href="{{ url_for('home') }}" class="nav__link">Home</a></li>
-                <li><a href="{{ url_for('list_all_articles') }}" class="nav__link">Articles</a></li>
-                <li><a href="{{ url_for('about') }}" class="nav__link">About</a></li>
-                
-            </ul>
-        </div>
-    </nav>
+<section class="page-hero section">
+    <div class="container article-hero reveal">
+        <a href="{{ url_for('list_all_articles') }}" class="breadcrumb-link">Back to Articles</a>
+        <p class="eyebrow">Article</p>
+        <h1>{{ metadata.title }}</h1>
+        {% if metadata.subtitle %}
+            <p class="page-hero__lead">{{ metadata.subtitle }}</p>
+        {% endif %}
 
-    <!-- Article Header -->
-        <!-- Article Header -->
-        <section class="section section--hero">
-            <div class="container">
-                <a href="{{ url_for('home') }}" class="btn btn--secondary mb-3">← Back to Home</a>
-                <h1>{{ metadata.title }}</h1>
-                <p class="text-center">{{ metadata.subtitle }}</p>
-                <p class="text-center">By {{ metadata.author }} on {{ metadata.date }}</p>
-    
-                {% if metadata.audio_src %}
-                <div class="audio-player mt-2">
-                    {% set raw = metadata.audio_src %}
-                    {% set path = raw if '/' in raw else 'audio/' ~ raw %}
-                    <audio controls preload="metadata" aria-label="Article audio" src="{{ url_for('static', path=path) }}"></audio>
-                </div>
+        <div class="meta-row">
+            {% if metadata.author %}
+                <span class="pill">By {{ metadata.author }}</span>
+            {% endif %}
+            {% if metadata.publish_date or metadata.date %}
+                <span class="pill">{{ metadata.publish_date or metadata.date }}</span>
+            {% endif %}
+            {% if metadata.tags %}
+                {% for tag in metadata.tags[:3] %}
+                    <span class="pill pill--soft">{{ tag }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% if metadata.audio_src %}
+        <div class="audio-card">
+            <div class="audio-card__header">
+                <p class="audio-card__label">Audio version</p>
+                {% if metadata.audio_title %}
+                    <p class="audio-card__title">{{ metadata.audio_title }}</p>
                 {% endif %}
             </div>
-        </section>
-
-    <!-- Article Content -->
-    <section class="section">
-        <div class="container">
-            <article class="card" style="max-width: 800px; margin: 0 auto;">
-                <div class="article-content">
-                    {{ content | safe }}
-                </div>
-            </article>
-
-            <!-- Article Footer -->
-            <div class="text-center mt-4">
-                <a href="{{ url_for('list_all_articles') }}" class="btn btn--primary">Back to All Articles</a>
+            <div class="audio-player">
+                {% set raw = metadata.audio_src %}
+                {% set path = raw if '/' in raw else 'audio/' ~ raw %}
+                <audio controls preload="metadata" aria-label="Article audio" src="{{ url_for('static', path=path) }}"></audio>
             </div>
+            {% if metadata.audio_duration %}
+                <p class="audio-card__meta">Approximate run time: {{ metadata.audio_duration }}</p>
+            {% endif %}
         </div>
-    </section>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container">
+        <article class="content-surface reveal">
+            <div class="article-content">
+                {{ content | safe }}
+            </div>
+        </article>
+
+        <div class="section-actions reveal">
+            <a href="{{ url_for('list_all_articles') }}" class="btn btn--primary">Back to All Articles</a>
+        </div>
+    </div>
+</section>
 {% endblock %}
