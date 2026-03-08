@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Courses | Augmentic Accounting{% endblock %}
+{% block description %}Curated courses for accountants who want a practical edge in SQL, AI, automation, and modern technology workflows.{% endblock %}
+
+{% block content %}
+<section class="page-hero section">
+    <div class="container page-hero__grid page-hero__grid--compact">
+        <div class="reveal">
+            <a href="{{ url_for('home') }}" class="breadcrumb-link">Back to Home</a>
+            <p class="eyebrow">Courses</p>
+            <h1>Courses curated to give accountants a real edge in the new age of technology.</h1>
+            <p class="page-hero__lead">These courses are designed for accountants who want more than generic tech content. The focus is practical fluency: understanding the tools, knowing where the leverage is, and building skills that actually matter in modern finance work.</p>
+        </div>
+        <div class="metric-card reveal reveal--delay">
+            <span class="metric-card__value">{{ courses|length }}</span>
+            <span class="metric-card__label">courses available now</span>
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container">
+        <div class="section-heading reveal">
+            <p class="eyebrow">Course Catalog</p>
+            <h2>Start with the essentials.</h2>
+            <p>The catalog will expand over time. For now, the first placeholder course focuses on SQL because understanding data access is one of the clearest ways accountants can increase their leverage.</p>
+        </div>
+
+        <div class="course-grid">
+            {% for course in courses %}
+            <article class="course-card reveal">
+                <div class="course-card__media">
+                    <img src="{{ url_for('static', path=course.thumbnail_path) }}" alt="{{ course.title }} thumbnail">
+                </div>
+                <div class="course-card__body">
+                    <span class="pill">Featured course</span>
+                    <h2>{{ course.title }}</h2>
+                    <p>{{ course.description }}</p>
+                    <div class="course-card__actions">
+                        <a href="{{ course.checkout_url }}" class="btn btn--primary" target="_blank" rel="noreferrer">{{ course.cta_label }}</a>
+                        <span class="article-card__tag">Gumroad checkout placeholder</span>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -21,6 +21,22 @@ mimetypes.add_type("application/javascript", ".js")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
+COURSES = [
+    {
+        "slug": "sql-for-accountants",
+        "title": "SQL for Accountants",
+        "description": (
+            "A practical introduction to SQL for accountants who want to query "
+            "their own data, ask better questions, and work more effectively "
+            "with analysts and engineering teams."
+        ),
+        "thumbnail_path": "images/sql-for-accountants.svg",
+        "checkout_url": "https://gumroad.com/l/sql-for-accountants-placeholder",
+        "cta_label": "Get now",
+    }
+]
+
+
 @app.get("/")
 def home(request: Request):
     articles = []
@@ -60,6 +76,23 @@ def home(request: Request):
 @app.get("/about")
 def about(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
+
+
+@app.get("/courses")
+def courses(request: Request):
+    return templates.TemplateResponse(
+        "courses.html", {"request": request, "courses": COURSES}
+    )
+
+
+@app.get("/resources")
+def resources(request: Request):
+    return templates.TemplateResponse("resources.html", {"request": request})
+
+
+@app.get("/coaching")
+def coaching(request: Request):
+    return templates.TemplateResponse("coaching.html", {"request": request})
 
 
 @app.get("/articles")

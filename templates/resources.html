@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Resources | Augmentic Accounting{% endblock %}
+{% block description %}Explore practical resources for accountants working with AI, automation, and modern technology workflows.{% endblock %}
+
+{% block content %}
+<section class="page-hero section">
+    <div class="container page-hero__grid">
+        <div class="reveal">
+            <a href="{{ url_for('home') }}" class="breadcrumb-link">Back to Home</a>
+            <p class="eyebrow">Resources</p>
+            <h1>Practical resources for accountants who want to move faster.</h1>
+            <p class="page-hero__lead">Resources are where ideas turn into usable tools. This section is intended for prompts, templates, checklists, guides, and working examples that help accountants apply new technology with more confidence.</p>
+        </div>
+        <aside class="spotlight-card reveal reveal--delay">
+            <p class="spotlight-card__label">What to expect</p>
+            <h2>Built for implementation.</h2>
+            <p>Think prompt libraries, workflow guides, starter frameworks, and practical documents you can actually put to work.</p>
+        </aside>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container">
+        <div class="feature-grid">
+            <article class="feature-card reveal">
+                <span class="feature-card__index">01</span>
+                <h3>Prompt packs</h3>
+                <p>Reusable prompts tailored to accounting and finance workflows rather than generic AI use.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay">
+                <span class="feature-card__index">02</span>
+                <h3>Templates</h3>
+                <p>Checklists, frameworks, and working documents that help turn concepts into a repeatable process.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay-2">
+                <span class="feature-card__index">03</span>
+                <h3>Guides</h3>
+                <p>Focused walkthroughs that help accountants understand where the leverage is and how to apply it responsibly.</p>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock %}

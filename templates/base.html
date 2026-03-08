@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>{% block title %}Augmentic Accounting{% endblock %}</title>
     <meta name="description" content="{% block description %}Practical insights on AI, automation, and modern accounting workflows.{% endblock %}">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v=20260308-mobilefix">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v=20260308-contentfix">
     <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script defer src="{{ url_for('static', path='js/site.js') }}?v=20260308-mobilefix"></script>
+    <script defer src="{{ url_for('static', path='js/site.js') }}?v=20260308-contentfix"></script>
 </head>
 <body>
     {% set current_path = request.url.path %}
@@ -40,6 +40,9 @@
                     <div class="nav__panel" id="primary-nav">
                         <a href="{{ url_for('home') }}" class="nav__link {% if current_path == '/' %}is-active{% endif %}">Home</a>
                         <a href="{{ url_for('list_all_articles') }}" class="nav__link {% if current_path[:9] == '/articles' %}is-active{% endif %}">Articles</a>
+                        <a href="{{ url_for('courses') }}" class="nav__link {% if current_path == '/courses' %}is-active{% endif %}">Courses</a>
+                        <a href="{{ url_for('resources') }}" class="nav__link {% if current_path == '/resources' %}is-active{% endif %}">Resources</a>
+                        <a href="{{ url_for('coaching') }}" class="nav__link {% if current_path == '/coaching' %}is-active{% endif %}">Coaching</a>
                         <a href="{{ url_for('about') }}" class="nav__link {% if current_path == '/about' %}is-active{% endif %}">About</a>
                         <a href="{{ url_for('list_all_articles') }}" class="btn btn--nav">Explore Articles</a>
                     </div>
@@ -72,6 +75,9 @@
                         <ul class="footer__list">
                             <li><a href="{{ url_for('home') }}" class="footer__link">Home</a></li>
                             <li><a href="{{ url_for('list_all_articles') }}" class="footer__link">Articles</a></li>
+                            <li><a href="{{ url_for('courses') }}" class="footer__link">Courses</a></li>
+                            <li><a href="{{ url_for('resources') }}" class="footer__link">Resources</a></li>
+                            <li><a href="{{ url_for('coaching') }}" class="footer__link">Coaching</a></li>
                             <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
                         </ul>
                     </div>

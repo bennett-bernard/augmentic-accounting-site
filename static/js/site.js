@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         window.addEventListener("resize", function () {
-            if (window.innerWidth > 860) {
+            if (window.innerWidth > 1024) {
                 closeNav();
             }
         });
@@ -46,18 +46,25 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    if (!("IntersectionObserver" in window)) {
+        revealItems.forEach(function (item) {
+            item.classList.add("is-visible");
+        });
+        return;
+    }
+
     var observer = new IntersectionObserver(
         function (entries, activeObserver) {
             entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting || entry.intersectionRatio > 0) {
                     entry.target.classList.add("is-visible");
                     activeObserver.unobserve(entry.target);
                 }
             });
         },
         {
-            threshold: 0.2,
-            rootMargin: "0px 0px -40px 0px"
+            threshold: 0.01,
+            rootMargin: "0px 0px -8% 0px"
         }
     );
 

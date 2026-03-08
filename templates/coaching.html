@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Coaching | Augmentic Accounting{% endblock %}
+{% block description %}Coaching for accountants and finance teams that want practical guidance on AI, automation, and workflow modernization.{% endblock %}
+
+{% block content %}
+<section class="page-hero section">
+    <div class="container page-hero__grid">
+        <div class="reveal">
+            <a href="{{ url_for('home') }}" class="breadcrumb-link">Back to Home</a>
+            <p class="eyebrow">Coaching</p>
+            <h1>Coaching for accountants who want help applying modern tools in the real world.</h1>
+            <p class="page-hero__lead">Coaching is designed for professionals and teams who want direct support thinking through AI, automation, data access, and workflow design in a way that fits the realities of accounting work.</p>
+        </div>
+        <aside class="spotlight-card reveal reveal--delay">
+            <p class="spotlight-card__label">Format</p>
+            <h2>Practical, direct, and implementation-focused.</h2>
+            <p>Less theory. More help deciding what to use, how to use it, and where it can actually create leverage.</p>
+        </aside>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container about-grid">
+        <article class="content-surface reveal">
+            <div class="article-content article-content--tight">
+                <p>For some people, coaching looks like a handful of one-on-one sessions to get clear on tooling, workflows, and priorities. For others, it looks like a more involved advisory relationship focused on implementation and skill-building over time.</p>
+                <p>The goal is to shorten the learning curve, avoid unhelpful detours, and help accountants build practical confidence around fast-moving technology.</p>
+                <p>If you are exploring what this could look like, the best starting point is a short conversation about your current workflows, your goals, and where you want the biggest lift.</p>
+            </div>
+        </article>
+
+        <div class="stack">
+            <article class="feature-card reveal reveal--delay">
+                <span class="feature-card__index">01</span>
+                <h3>One-on-one guidance</h3>
+                <p>Targeted support for professionals who want direct help making sense of tools and workflows.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay-2">
+                <span class="feature-card__index">02</span>
+                <h3>Workflow review</h3>
+                <p>Evaluate current processes and identify where AI or automation can create leverage without adding noise.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay-3">
+                <span class="feature-card__index">03</span>
+                <h3>Implementation support</h3>
+                <p>Move from ideas into a concrete plan with practical next steps and accountability.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cta-band reveal">
+            <div>
+                <p class="eyebrow">Start the conversation</p>
+                <h2>Interested in coaching?</h2>
+                <p>If you want to discuss a one-on-one engagement or a team-focused format, reach out and we can talk through what would be most useful.</p>
+            </div>
+            <div class="button-row button-row--compact">
+                <a href="mailto:bennett@catalystcfo.co" class="btn btn--primary">Contact Bennett</a>
+                <a href="{{ url_for('courses') }}" class="btn btn--secondary">Browse courses</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
