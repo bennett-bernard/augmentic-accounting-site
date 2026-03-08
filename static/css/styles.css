@@ -26,6 +26,8 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
@@ -177,6 +179,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 0.9rem;
+    flex: 1 1 auto;
     min-width: 0;
 }
 
@@ -214,6 +217,7 @@ ul {
 .nav__panel {
     display: flex;
     align-items: center;
+    flex: 0 0 auto;
     gap: 0.5rem;
 }
 
@@ -991,7 +995,7 @@ ul {
     }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
     .site-header {
         padding-top: 0.75rem;
     }
@@ -1032,7 +1036,9 @@ ul {
         width: 100%;
         justify-content: center;
     }
+}
 
+@media (max-width: 860px) {
     .signal-grid,
     .feature-grid,
     .article-grid,

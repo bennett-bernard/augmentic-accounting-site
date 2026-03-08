@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>{% block title %}Augmentic Accounting{% endblock %}</title>
     <meta name="description" content="{% block description %}Practical insights on AI, automation, and modern accounting workflows.{% endblock %}">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v=20260308-mobilefix">
     <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script defer src="{{ url_for('static', path='js/site.js') }}"></script>
+    <script defer src="{{ url_for('static', path='js/site.js') }}?v=20260308-mobilefix"></script>
 </head>
 <body>
     {% set current_path = request.url.path %}
