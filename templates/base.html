@@ -40,7 +40,6 @@
                     <div class="nav__panel" id="primary-nav">
                         <a href="{{ url_for('home') }}" class="nav__link {% if current_path == '/' %}is-active{% endif %}">Home</a>
                         <a href="{{ url_for('list_all_articles') }}" class="nav__link {% if current_path[:9] == '/articles' %}is-active{% endif %}">Articles</a>
-                        <a href="{{ url_for('courses') }}" class="nav__link {% if current_path == '/courses' %}is-active{% endif %}">Courses</a>
                         <a href="{{ url_for('resources') }}" class="nav__link {% if current_path == '/resources' %}is-active{% endif %}">Resources</a>
                         <a href="{{ url_for('coaching') }}" class="nav__link {% if current_path == '/coaching' %}is-active{% endif %}">Coaching</a>
                         <a href="{{ url_for('about') }}" class="nav__link {% if current_path == '/about' %}is-active{% endif %}">About</a>
@@ -75,7 +74,6 @@
                         <ul class="footer__list">
                             <li><a href="{{ url_for('home') }}" class="footer__link">Home</a></li>
                             <li><a href="{{ url_for('list_all_articles') }}" class="footer__link">Articles</a></li>
-                            <li><a href="{{ url_for('courses') }}" class="footer__link">Courses</a></li>
                             <li><a href="{{ url_for('resources') }}" class="footer__link">Resources</a></li>
                             <li><a href="{{ url_for('coaching') }}" class="footer__link">Coaching</a></li>
                             <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
