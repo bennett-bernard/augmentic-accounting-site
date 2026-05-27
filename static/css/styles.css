@@ -866,6 +866,18 @@ ul {
     background: linear-gradient(90deg, var(--color-brand), rgba(255, 255, 255, 0.35));
 }
 
+.cta-band .btn--secondary {
+    border-color: rgba(255, 255, 255, 0.22);
+    color: var(--color-paper);
+}
+
+.cta-band .btn--secondary:hover,
+.cta-band .btn--secondary:focus-visible {
+    border-color: rgba(255, 255, 255, 0.46);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-paper);
+}
+
 .footer {
     margin-top: clamp(4rem, 7vw, 6rem);
     padding: 0 0 2rem;
@@ -903,6 +915,10 @@ ul {
     border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer__label {
+    color: rgba(255, 255, 255, 0.68);
 }
 
 .footer__contact-link,
