@@ -1,62 +1,156 @@
 {% extends "base.html" %}
 
-{% block title %}Augmentic Accounting | AI, Automation, and Accounting Insights{% endblock %}
-{% block description %}Augmentic Accounting shares practical ideas on AI, automation, and modern accounting workflows.{% endblock %}
+{% block title %}Augmentic Accounting | AI Workflows for Service-Business Accounting Teams{% endblock %}
+{% block description %}Augmentic Accounting shares practical AI and automation resources for accountants, with coaching and implementation support for teams that want help applying them.{% endblock %}
 
 {% block content %}
-<section class="hero section">
+<section class="hero product-hero section">
     <div class="container hero__grid">
         <div class="hero__content reveal">
-            <p class="eyebrow">AI + Automation for Accountants</p>
-            <h1 class="hero__title">Modern accounting insight, designed for how finance teams actually work.</h1>
-            <p class="hero__lede">Augmentic Accounting explores practical ways to use AI and automation without losing the judgment, rigor, and clarity that good accounting work depends on.</p>
+            <p class="eyebrow">Free AI accounting resources + practical support</p>
+            <h1 class="hero__title">Learn how to use AI in accounting, then get help implementing it.</h1>
+            <p class="hero__lede">Augmentic Accounting shares practical articles, examples, and working resources for accountants exploring AI and automation. When you want direct help, Augmentic offers coaching and implementation support to turn those ideas into controlled workflows your team can actually use.</p>
             <div class="button-row">
-                <a href="{{ url_for('list_all_articles') }}" class="btn btn--primary">Read the latest articles</a>
-                <a href="{{ url_for('about') }}" class="btn btn--secondary">About the site</a>
+                <a href="mailto:bennett@catalystcfo.co?subject=AI%20Coaching%20and%20Implementation" class="btn btn--primary">Book an AI readiness call</a>
+                <a href="#offers" class="btn btn--secondary">Work with Augmentic</a>
             </div>
-            <div class="signal-grid">
-                <div class="signal-card">
-                    <span class="signal-card__label">Published insights</span>
-                    <strong class="signal-card__value">{{ articles|length }}</strong>
+            <div class="proof-strip" aria-label="Site highlights">
+                <div>
+                    <span class="proof-strip__value">Free guides</span>
+                    <span class="proof-strip__label">articles, examples, and resources</span>
                 </div>
-                <div class="signal-card">
-                    <span class="signal-card__label">Primary lens</span>
-                    <strong class="signal-card__value signal-card__value--small">Accounting x AI x automation</strong>
+                <div>
+                    <span class="proof-strip__value">Coaching</span>
+                    <span class="proof-strip__label">direct guidance for practical adoption</span>
                 </div>
-                <div class="signal-card">
-                    <span class="signal-card__label">Style</span>
-                    <strong class="signal-card__value signal-card__value--small">Practical, operator-first, current</strong>
+                <div>
+                    <span class="proof-strip__value">Implementation</span>
+                    <span class="proof-strip__label">workflow buildout with review standards</span>
                 </div>
             </div>
         </div>
 
         <div class="hero__media reveal reveal--delay">
-            <div class="media-card">
-                <div class="media-card__header">
-                    <span class="pill">Featured video</span>
-                    <span class="media-card__caption">Start with the broader perspective</span>
+            <div class="ops-console" aria-label="AI accounting workflow control room">
+                <div class="ops-console__topbar">
+                    <span class="ops-console__dot"></span>
+                    <span class="ops-console__dot"></span>
+                    <span class="ops-console__dot"></span>
+                    <strong>AI Workflow Control Room</strong>
                 </div>
-                <div class="embed-shell">
-                    <iframe src="https://www.youtube.com/embed/DWtiI41yKcc?si=OrtaBCNBbl9ZV738" title="Augmentic Accounting featured video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="ops-console__score">
+                    <span>Implementation Readiness</span>
+                    <strong><span data-count="87">87</span>%</strong>
                 </div>
-                <div class="media-card__footer">
-                    <div>
-                        <p class="media-card__label">What you will find here</p>
-                        <p class="media-card__text">Clear walkthroughs, implementation ideas, and accounting-specific commentary on modern tooling.</p>
+                <div class="ops-console__meter">
+                    <span></span>
+                </div>
+                <div class="console-steps" data-console-steps>
+                    <div class="console-step is-active">
+                        <span class="console-step__signal"></span>
+                        <div>
+                            <strong>Revenue variance review</strong>
+                            <p>Drafts explanations from GL, CRM, and project data.</p>
+                        </div>
                     </div>
+                    <div class="console-step">
+                        <span class="console-step__signal"></span>
+                        <div>
+                            <strong>AR follow-up assistant</strong>
+                            <p>Prioritizes at-risk invoices and prepares client-ready outreach.</p>
+                        </div>
+                    </div>
+                    <div class="console-step">
+                        <span class="console-step__signal"></span>
+                        <div>
+                            <strong>Close checklist monitor</strong>
+                            <p>Flags late tasks, missing support, and control exceptions.</p>
+                        </div>
+                    </div>
+                    <div class="console-step">
+                        <span class="console-step__signal"></span>
+                        <div>
+                            <strong>Expense anomaly triage</strong>
+                            <p>Routes unusual spend patterns before they hit the review pile.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ops-console__audit">
+                    <span>Latest audit report</span>
+                    <strong>12 workflows monitored</strong>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section section--offerings">
+<section class="section problem-section">
+    <div class="container">
+        <div class="section-heading section-heading--split reveal">
+            <div>
+                <p class="eyebrow">The core problem</p>
+                <h2>AI is everywhere. Your accounting team still has to make it safe, useful, and repeatable.</h2>
+            </div>
+            <p>The pain is not "we should try ChatGPT." The pain is that every month-end close, billing cycle, forecast update, and executive request still depends on heroic manual effort.</p>
+        </div>
+
+        <div class="pain-grid">
+            <article class="pain-card reveal">
+                <span class="pain-card__tag">Manual drag</span>
+                <h3>High-value people are trapped in low-value loops.</h3>
+                <p>Copying data, rewriting explanations, reconciling the same exceptions, and chasing the same approvals leaves little room for judgment.</p>
+            </article>
+            <article class="pain-card reveal reveal--delay">
+                <span class="pain-card__tag">Risk exposure</span>
+                <h3>Unsanctioned AI creates invisible control gaps.</h3>
+                <p>Staff experiment in side channels, sensitive data moves without policy, and nobody can explain what was changed, approved, or relied on.</p>
+            </article>
+            <article class="pain-card reveal reveal--delay-2">
+                <span class="pain-card__tag">Slow adoption</span>
+                <h3>Generic AI training does not survive contact with your close.</h3>
+                <p>Service businesses need workflows built around recurring revenue, projects, utilization, client billing, payroll, and month-end reporting.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft">
+    <div class="container transformation-grid">
+        <div class="transformation-copy reveal">
+            <p class="eyebrow">The desired outcome</p>
+            <h2>Move from scattered AI experiments to a controlled accounting AI system.</h2>
+            <p>The free material helps you understand what is possible. Coaching and implementation support help you choose the right workflows, build the prompts and SOPs, document the controls, and train the team without weakening review standards.</p>
+        </div>
+        <div class="before-after reveal reveal--delay">
+            <div class="before-after__column">
+                <span>Before</span>
+                <ul>
+                    <li>AI use is inconsistent and undocumented</li>
+                    <li>Managers still review every repetitive variance</li>
+                    <li>Month-end bottlenecks live in inboxes and spreadsheets</li>
+                    <li>Leadership wants speed, finance worries about risk</li>
+                </ul>
+            </div>
+            <div class="before-after__column before-after__column--after">
+                <span>After</span>
+                <ul>
+                    <li>Approved workflows with owners, controls, and logs</li>
+                    <li>AI drafts the first pass and humans review judgment calls</li>
+                    <li>Close, billing, reporting, and support requests move faster</li>
+                    <li>Executives get an AI roadmap and recurring audit reports</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="offers">
     <div class="container">
         <div class="offerings-band reveal">
             <div class="offerings-band__intro">
-                <p class="eyebrow">Offerings</p>
-                <h2>Three ways to engage with Augmentic.</h2>
-                <p>The information stays free. Paid support is focused on implementation help and coaching for accountants who want to put the ideas to work.</p>
+                <p class="eyebrow">How Augmentic helps</p>
+                <h2>Free information first. Paid support when you want help applying it.</h2>
+                <p>The site is built around practical education for accountants. Paid work is focused on coaching and implementation support for teams that want to turn the ideas into governed workflows.</p>
             </div>
 
             <div class="offerings-grid">
@@ -65,10 +159,10 @@
                     <h3>Free resources</h3>
                     <p>Articles, examples, and working materials for accountants exploring AI, automation, and modern workflow design.</p>
                 </a>
-                <a href="mailto:bennett@catalystcfo.co" class="offering-card">
+                <a href="mailto:bennett@catalystcfo.co?subject=AI%20Implementation%20Support" class="offering-card">
                     <span class="offering-card__label">02</span>
                     <h3>Implementation support</h3>
-                    <p>Hands-on help turning AI and automation ideas into accounting workflows, processes, and operating rhythms.</p>
+                    <p>Hands-on help turning AI and automation ideas into accounting workflows, SOPs, review steps, and operating rhythms.</p>
                 </a>
                 <a href="{{ url_for('coaching') }}" class="offering-card">
                     <span class="offering-card__label">03</span>
@@ -80,61 +174,106 @@
     </div>
 </section>
 
-<section class="section section--soft">
+<section class="section offer-stack-section">
+    <div class="container">
+        <div class="offer-stack reveal">
+            <div>
+                <p class="eyebrow">Paid support</p>
+                <h2>Support that stays tied to real accounting work.</h2>
+            </div>
+            <div class="value-grid">
+                <article>
+                    <span>01</span>
+                    <h3>Free foundation</h3>
+                    <p>Use the articles and resources to understand practical AI use cases, risks, workflows, and adoption patterns before spending money.</p>
+                </article>
+                <article>
+                    <span>02</span>
+                    <h3>Coaching</h3>
+                    <p>Get direct help deciding where AI fits, how to review outputs, what to avoid, and how to communicate the plan to the team.</p>
+                </article>
+                <article>
+                    <span>03</span>
+                    <h3>Implementation</h3>
+                    <p>Turn priority workflows into prompts, SOPs, review checklists, templates, and operating routines the accounting team can use.</p>
+                </article>
+                <article>
+                    <span>04</span>
+                    <h3>Governance</h3>
+                    <p>Keep adoption tied to privacy boundaries, human review, approval standards, documentation, and control expectations.</p>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft" id="case-studies">
     <div class="container">
         <div class="section-heading reveal">
-            <p class="eyebrow">Why this feels different</p>
-            <h2>Built to be more useful than generic tech commentary.</h2>
-            <p>Every section is focused on helping accounting professionals make sense of fast-moving tools without turning the site into a trend report.</p>
+            <p class="eyebrow">Example use cases</p>
+            <h2>What this can look like inside service-business finance teams.</h2>
+            <p>These representative scenarios show the kind of operating lift coaching and implementation support can create across recurring finance workflows.</p>
         </div>
 
-        <div class="feature-grid">
-            <article class="feature-card reveal">
-                <span class="feature-card__index">01</span>
-                <h3>Practical walkthroughs</h3>
-                <p>Posts stay grounded in how real workflows, reconciliations, reporting, and data access actually work inside finance teams.</p>
+        <div class="case-study-grid">
+            <article class="case-card reveal">
+                <span class="case-card__industry">Marketing agency group</span>
+                <h3>Close review moved from spreadsheet archaeology to exception management.</h3>
+                <p>An AI-assisted close monitor summarized late tasks, missing support, and unusual balance movements before the controller review.</p>
+                <div class="case-card__metrics">
+                    <strong>11 hrs/mo</strong>
+                    <span>modeled review time reclaimed</span>
+                </div>
             </article>
-            <article class="feature-card reveal reveal--delay">
-                <span class="feature-card__index">02</span>
-                <h3>Modern but measured</h3>
-                <p>The focus is on tools and methods worth understanding, not novelty for novelty's sake.</p>
+            <article class="case-card reveal reveal--delay">
+                <span class="case-card__industry">Professional services firm</span>
+                <h3>Billing follow-up stopped depending on memory and manual inbox scans.</h3>
+                <p>AR workflows ranked overdue invoices, drafted client-specific follow-up, and logged escalation notes for manager approval.</p>
+                <div class="case-card__metrics">
+                    <strong>3x faster</strong>
+                    <span>first-pass outreach preparation</span>
+                </div>
             </article>
-            <article class="feature-card reveal reveal--delay-2">
-                <span class="feature-card__index">03</span>
-                <h3>Responsive by design</h3>
-                <p>The reading experience is tuned for desktop and mobile so articles, video, and navigation stay clear wherever people land.</p>
+            <article class="case-card reveal reveal--delay-2">
+                <span class="case-card__industry">Multi-entity consultancy</span>
+                <h3>Leadership got cleaner answers without adding another analyst.</h3>
+                <p>AI variance briefs pulled context from GL exports, project revenue, and payroll timing so finance could review rather than start from blank pages.</p>
+                <div class="case-card__metrics">
+                    <strong>48 hrs</strong>
+                    <span>faster executive-ready variance packet</span>
+                </div>
             </article>
         </div>
     </div>
 </section>
 
-<section class="section" id="articles">
-    <div class="container">
-        <div class="section-heading section-heading--split reveal">
-            <div>
-                <p class="eyebrow">Latest writing</p>
-                <h2>Recent articles and insights.</h2>
-                <p>Start with the newest posts, then jump into the archive when you want the full set.</p>
-            </div>
-            <a href="{{ url_for('list_all_articles') }}" class="btn btn--ghost">Browse the archive</a>
+<section class="section">
+    <div class="container process-wrap">
+        <div class="section-heading reveal">
+            <p class="eyebrow">Implementation path</p>
+            <h2>A practical path from idea to governed workflow.</h2>
         </div>
-
-        <div class="article-grid">
-            {% for article in articles[:3] %}
-            <article class="article-card reveal">
-                <div class="article-card__topline">
-                    <span class="pill pill--soft">{{ article.metadata.publish_date or article.metadata.date or article.year ~ '-' ~ article.month }}</span>
-                    {% if article.metadata.tags %}
-                        <span class="article-card__tag">{{ article.metadata.tags[0] }}</span>
-                    {% endif %}
-                </div>
-                <h3 class="article-card__title">{{ article.metadata.title or article.slug|replace('-', ' ')|title }}</h3>
-                <p class="article-card__excerpt">{{ article.metadata.excerpt or article.metadata.subtitle or 'Practical thinking on AI and automation in the accounting profession.' }}</p>
-                <div class="article-card__footer">
-                    <a href="{{ url_for('get_article', year=article.year, month=article.month, article_name=article.slug) }}" class="text-link">Read article</a>
-                </div>
-            </article>
-            {% endfor %}
+        <div class="timeline reveal reveal--delay">
+            <div class="timeline__item">
+                <span>Step 1</span>
+                <h3>Map the AI opportunity</h3>
+                <p>Inventory workflows, risk points, data sources, stakeholder needs, and quick-win candidates.</p>
+            </div>
+            <div class="timeline__item">
+                <span>Step 2</span>
+                <h3>Design the controls</h3>
+                <p>Define human review, approval steps, privacy rules, documentation standards, and audit expectations.</p>
+            </div>
+            <div class="timeline__item">
+                <span>Step 3</span>
+                <h3>Build the workflows</h3>
+                <p>Create prompt systems, SOPs, automation handoffs, reporting templates, and training material.</p>
+            </div>
+            <div class="timeline__item">
+                <span>Step 4</span>
+                <h3>Launch and govern</h3>
+                <p>Train the team, test outputs, finalize the roadmap, and establish monitoring or advisory cadence.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -143,13 +282,13 @@
     <div class="container">
         <div class="cta-band reveal">
             <div>
-                <p class="eyebrow">Keep exploring</p>
-                <h2>Want the background on the site and the perspective behind it?</h2>
-                <p>Read more about the mission, the author, and why Augmentic Accounting is focused on AI and automation inside the profession.</p>
+                <p class="eyebrow">Next step</p>
+                <h2>Find the workflows worth automating before your team spends another quarter experimenting.</h2>
+                <p>Book a short AI readiness call. We will identify where your accounting department has the clearest path to speed, quality, and control.</p>
             </div>
             <div class="button-row button-row--compact">
-                <a href="{{ url_for('about') }}" class="btn btn--primary">Learn about Augmentic</a>
-                <a href="mailto:bennett@catalystcfo.co" class="btn btn--secondary">Get in touch</a>
+                <a href="mailto:bennett@catalystcfo.co?subject=AI%20Coaching%20and%20Implementation" class="btn btn--primary">Book the call</a>
+                <a href="{{ url_for('list_all_articles') }}" class="btn btn--secondary">Read the articles</a>
             </div>
         </div>
     </div>

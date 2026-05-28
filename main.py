@@ -61,6 +61,7 @@ def about(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
 
 
+
 @app.get("/resources")
 def resources(request: Request):
     return templates.TemplateResponse("resources.html", {"request": request})
