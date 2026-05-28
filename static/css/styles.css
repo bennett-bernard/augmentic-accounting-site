@@ -655,6 +655,10 @@ ul {
     align-items: center;
 }
 
+.section-actions {
+    margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
 .article-card__tag {
     font-size: 0.85rem;
     color: rgba(43, 43, 43, 0.62);
