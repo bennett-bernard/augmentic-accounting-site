@@ -588,6 +588,7 @@ ul {
 .article-card {
     position: relative;
     padding: 1.45rem;
+    min-width: 0;
     border-radius: var(--radius-md);
     border: 1px solid rgba(43, 43, 43, 0.08);
     background: rgba(255, 255, 255, 0.88);
@@ -635,7 +636,8 @@ ul {
 }
 
 .article-grid--archive {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+    gap: clamp(1.25rem, 2vw, 1.75rem);
 }
 
 .article-card {
@@ -660,7 +662,15 @@ ul {
 
 .article-card__title {
     margin: 1rem 0 0.75rem;
-    line-height: 1.18;
+    font-size: clamp(1.75rem, 2.1vw, 2.35rem);
+    line-height: 1.1;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+}
+
+.article-card__excerpt {
+    font-size: 1rem;
+    line-height: 1.55;
 }
 
 .article-card__footer {
