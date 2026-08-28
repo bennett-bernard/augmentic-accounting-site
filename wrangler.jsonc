@@ -1,7 +1,13 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"name": "augmentic-accounting-site",
-	"compatibility_date": "2026-08-27",
+	"compatibility_date": "2026-08-28",
+	"routes": [
+		{
+			"pattern": "augmenticaccounting.com",
+			"custom_domain": true
+		}
+	],
 	"assets": {
 		"directory": "./dist",
 		"html_handling": "drop-trailing-slash"

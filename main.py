@@ -6,12 +6,11 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import mimetypes
 import os
 import frontmatter
-from slugify import slugify
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-# Trust proxy headers so url_for uses https on Render
+# Honor proxy headers when the FastAPI app is run directly.
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 
 # Ensure correct MIME types for static assets on minimal images
@@ -54,22 +53,22 @@ def home(request: Request):
         reverse=True,
     )
 
-    return templates.TemplateResponse("index.html", {"request": request, "articles": articles})
+    return templates.TemplateResponse(request, "index.html", {"articles": articles})
 
 @app.get("/about")
 def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request})
+    return templates.TemplateResponse(request, "about.html")
 
 
 
 @app.get("/resources")
 def resources(request: Request):
-    return templates.TemplateResponse("resources.html", {"request": request})
+    return templates.TemplateResponse(request, "resources.html")
 
 
 @app.get("/coaching")
 def coaching(request: Request):
-    return templates.TemplateResponse("coaching.html", {"request": request})
+    return templates.TemplateResponse(request, "coaching.html")
 
 
 @app.get("/articles")
@@ -106,7 +105,7 @@ def list_all_articles(request: Request):
     )
 
     return templates.TemplateResponse(
-        "article-list.html", {"request": request, "articles": articles}
+        request, "article-list.html", {"articles": articles}
     )
 
 @app.get("/articles/{year}")
@@ -139,7 +138,7 @@ def list_articles_by_year(request: Request, year: str):
     )
 
     return templates.TemplateResponse(
-        "article-list.html", {"request": request, "articles": articles, "year": year}
+        request, "article-list.html", {"articles": articles, "year": year}
     )
 
 @app.get("/articles/{year}/{month}")
@@ -169,7 +168,9 @@ def list_articles_by_month(request: Request, year: str, month: str):
     )
 
     return templates.TemplateResponse(
-        "article-list.html", {"request": request, "articles": articles, "year": year, "month": month}
+        request,
+        "article-list.html",
+        {"articles": articles, "year": year, "month": month},
     )
 
 @app.get("/articles/{year}/{month}/{article_name}")
@@ -189,5 +190,7 @@ def get_article(request: Request, year: str, month: str, article_name: str):
 
     # Pass the HTML content and title to the template
     return templates.TemplateResponse(
-        "article-detail.html", {"request": request, "content": html_content, "metadata": post.metadata}
+        request,
+        "article-detail.html",
+        {"content": html_content, "metadata": post.metadata},
     )
