@@ -41,3 +41,24 @@ def test_build_static_renders_every_route_and_copies_assets(tmp_path: Path) -> N
     assert (
         dist / "static" / "audio" / "AugmenticBlogRecording20251013_audio.m4a"
     ).is_file()
+
+
+def test_primary_audience_paths_are_prominent(tmp_path: Path) -> None:
+    dist = tmp_path / "dist"
+    build_static(dist)
+
+    homepage = (dist / "index.html").read_text(encoding="utf-8")
+    assert "https://augmentic-accounting.kit.com/690ce48b27" in homepage
+    assert "https://www.youtube.com/@AugmenticAccounting" in homepage
+    assert 'id="newsletter"' in homepage
+    assert 'id="offers"' in homepage
+    assert "Digital products" in homepage
+    assert "Webinars" in homepage
+    assert "1:1 coaching" in homepage
+
+    products = (dist / "resources" / "index.html").read_text(encoding="utf-8")
+    assert 'id="webinars"' in products
+    assert "Coming soon" in products
+
+    coaching = (dist / "coaching" / "index.html").read_text(encoding="utf-8")
+    assert "1:1 AI Coaching for Accountants" in coaching

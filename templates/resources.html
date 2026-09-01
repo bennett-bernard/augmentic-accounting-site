@@ -1,43 +1,79 @@
 {% extends "base.html" %}
 
-{% block title %}Resources | Augmentic Accounting{% endblock %}
-{% block description %}Explore practical AI workflow resources for service-business accounting teams.{% endblock %}
+{% block title %}Products & Webinars | Augmentic Accounting{% endblock %}
+{% block description %}Digital products and live webinars for accountants learning to use AI in practical, responsible ways.{% endblock %}
 
 {% block content %}
 <section class="page-hero section">
     <div class="container page-hero__grid">
         <div class="reveal">
             <a href="{{ url_for('home') }}" class="breadcrumb-link">Back to Home</a>
-            <p class="eyebrow">Resources</p>
-            <h1>Practical resources for governed AI adoption in accounting.</h1>
-            <p class="page-hero__lead">Resources are where AI ideas turn into usable tools: prompt systems, workflow checklists, governance templates, audit report examples, and working guides for service-business finance teams.</p>
+            <p class="eyebrow">Products &amp; webinars</p>
+            <h1>Practical tools for putting the ideas to work.</h1>
+            <p class="page-hero__lead">Use the free content to explore. Use these products and live sessions when you want a clearer path from “this is interesting” to “I can actually do this.”</p>
         </div>
         <aside class="spotlight-card reveal reveal--delay">
-            <p class="spotlight-card__label">What to expect</p>
-            <h2>Built for controlled implementation.</h2>
-            <p>Think prompt libraries, workflow guides, control checklists, monitoring templates, and practical documents you can actually put to work.</p>
+            <p class="spotlight-card__label">Get first access</p>
+            <h2>New releases go to subscribers first.</h2>
+            <p>Join the newsletter to hear about product launches, live webinars, and early-access sessions.</p>
+            <a href="https://augmentic-accounting.kit.com/690ce48b27" class="btn btn--primary">Join the newsletter</a>
         </aside>
     </div>
 </section>
 
 <section class="section section--soft">
     <div class="container">
-        <div class="feature-grid">
-            <article class="feature-card reveal">
-                <span class="feature-card__index">01</span>
-                <h3>Prompt systems</h3>
-                <p>Reusable prompt structures tailored to accounting and finance workflows rather than generic AI use.</p>
+        <div class="section-heading reveal">
+            <p class="eyebrow">Digital products</p>
+            <h2>Build at your own pace.</h2>
+            <p>This storefront is ready for prompt packs, templates, checklists, mini-courses, and workflow guides as they are released.</p>
+        </div>
+        <div class="resource-product-grid">
+            <article class="resource-product reveal">
+                <span class="pill">Coming soon</span>
+                <h3>Accounting AI workflow kits</h3>
+                <p>Step-by-step instructions, prompts, controls, and reusable templates for a specific accounting workflow.</p>
+                <a href="https://augmentic-accounting.kit.com/690ce48b27" class="text-link">Get launch updates</a>
             </article>
-            <article class="feature-card reveal reveal--delay">
-                <span class="feature-card__index">02</span>
-                <h3>Governance templates</h3>
-                <p>Checklists, frameworks, and working documents that help turn AI adoption into a repeatable process.</p>
+            <article class="resource-product reveal reveal--delay">
+                <span class="pill">Coming soon</span>
+                <h3>Prompt and review packs</h3>
+                <p>Practical prompts paired with review checklists so you can move faster without treating the first output as the final answer.</p>
+                <a href="https://augmentic-accounting.kit.com/690ce48b27" class="text-link">Get launch updates</a>
             </article>
-            <article class="feature-card reveal reveal--delay-2">
-                <span class="feature-card__index">03</span>
-                <h3>Workflow guides</h3>
-                <p>Focused walkthroughs that help accounting teams understand where AI creates leverage and how to apply it responsibly.</p>
+            <article class="resource-product reveal reveal--delay-2">
+                <span class="pill">Coming soon</span>
+                <h3>AI adoption playbooks</h3>
+                <p>Simple frameworks for selecting tools, setting boundaries, documenting workflows, and bringing a team along.</p>
+                <a href="https://augmentic-accounting.kit.com/690ce48b27" class="text-link">Get launch updates</a>
             </article>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="webinars">
+    <div class="container webinar-feature reveal">
+        <div>
+            <p class="eyebrow eyebrow--light">Live webinars</p>
+            <h2>Learn one workflow. Ask real questions. Leave with a next step.</h2>
+            <p>Each webinar will focus on a practical accounting use case, show the tools in action, and make room for the judgment and control questions that polished demos usually skip.</p>
+        </div>
+        <div class="webinar-feature__action">
+            <span>Upcoming dates will be announced in the newsletter.</span>
+            <a href="https://augmentic-accounting.kit.com/690ce48b27" class="btn btn--primary">Get webinar announcements</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cta-band reveal">
+            <div>
+                <p class="eyebrow">Want personal support?</p>
+                <h2>Work through your use case 1:1.</h2>
+                <p>Coaching is available when you want help choosing a tool, building a workflow, or deciding what to learn next.</p>
+            </div>
+            <a href="{{ url_for('coaching') }}" class="btn btn--primary">Explore 1:1 coaching</a>
         </div>
     </div>
 </section>

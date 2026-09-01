@@ -1,96 +1,67 @@
 {% extends "base.html" %}
 
-{% block title %}Coaching & Implementation | Augmentic Accounting{% endblock %}
-{% block description %}Coaching and implementation support for service-business accounting teams adopting practical AI workflows.{% endblock %}
+{% block title %}1:1 AI Coaching for Accountants | Augmentic Accounting{% endblock %}
+{% block description %}Personal coaching for accountants who want to use AI more confidently, build practical workflows, and choose a clear next step.{% endblock %}
 
 {% block content %}
 <section class="page-hero section">
     <div class="container page-hero__grid">
         <div class="reveal">
             <a href="{{ url_for('home') }}" class="breadcrumb-link">Back to Home</a>
-            <p class="eyebrow">Dedicated support</p>
-            <h1>Coaching and implementation support for practical AI accounting workflows.</h1>
-            <p class="page-hero__lead">For leaders and accountants who want help applying the free material to real workflows. Augmentic helps you choose the right use cases, build the operating structure, and keep adoption grounded in review, privacy, and control.</p>
+            <p class="eyebrow">1:1 coaching</p>
+            <h1>Build your AI skill set around the work you actually do.</h1>
+            <p class="page-hero__lead">Bring a workflow, a tool question, or a learning goal. We’ll work through it together and turn the noise into a practical next step.</p>
+            <a href="mailto:bennett@catalystcfo.co?subject=1%3A1%20AI%20Coaching" class="btn btn--primary">Ask about coaching</a>
         </div>
         <aside class="spotlight-card reveal reveal--delay">
-            <p class="spotlight-card__label">How it works</p>
-            <h2>Focused advice plus hands-on build support.</h2>
-            <p>Use coaching when you need judgment and direction. Use implementation support when you want help turning the plan into workflows, SOPs, prompts, and controls.</p>
+            <p class="spotlight-card__label">A good fit for</p>
+            <h2>Accountants ready to learn by building.</h2>
+            <p>This is practical working time for professionals who want context, feedback, and momentum—not another generic AI presentation.</p>
         </aside>
     </div>
 </section>
 
 <section class="section section--soft">
+    <div class="container">
+        <div class="section-heading reveal">
+            <p class="eyebrow">What we can work on</p>
+            <h2>Start with your real constraint.</h2>
+        </div>
+        <div class="feature-grid">
+            <article class="feature-card reveal">
+                <span class="feature-card__index">01</span>
+                <h3>Choose a useful workflow</h3>
+                <p>Find the repetitive, high-friction work where AI can help without creating unnecessary risk or complexity.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay">
+                <span class="feature-card__index">02</span>
+                <h3>Build it together</h3>
+                <p>Work through prompts, agents, data access, review steps, or tool setup with an experienced accounting perspective in the room.</p>
+            </article>
+            <article class="feature-card reveal reveal--delay-2">
+                <span class="feature-card__index">03</span>
+                <h3>Create your next-step plan</h3>
+                <p>Leave with a concrete workflow, learning path, or decision—not a folder full of slides you never open again.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section">
     <div class="container about-grid">
         <article class="content-surface reveal">
             <div class="article-content article-content--tight">
-                <h2>Where Augmentic helps</h2>
-                <p>The articles and resources are there for accountants who want to learn on their own. Dedicated support is for teams that want direct help applying the ideas.</p>
-                <p>Coaching focuses on judgment: where AI fits, what to avoid, how to review output, and how to talk about risk with leadership. Implementation focuses on buildout: prompts, SOPs, workflow specs, training, and control documentation.</p>
-                <p>The goal is practical adoption that improves speed without turning the accounting function into an uncontrolled experiment.</p>
+                <h2>How coaching works</h2>
+                <p>We start with a short conversation about what you are trying to accomplish. If there is a useful fit, we define the session around a specific outcome.</p>
+                <p>That might mean designing an AI-assisted reconciliation, reviewing an agent setup, creating a safe experimentation plan, or simply making sense of which tools deserve your attention.</p>
+                <p>The work is personal, practical, and grounded in accounting judgment.</p>
             </div>
         </article>
-
-        <div class="stack">
-            <article class="feature-card reveal reveal--delay">
-                <span class="feature-card__index">01</span>
-                <h3>Workflow implementation</h3>
-                <p>Build and launch AI workflows across close, reporting, billing, AR, AP, variance review, and recurring leadership requests.</p>
-            </article>
-            <article class="feature-card reveal reveal--delay-2">
-                <span class="feature-card__index">02</span>
-                <h3>Governance and enablement</h3>
-                <p>Define review standards, privacy boundaries, approval paths, and training material so the team can use AI responsibly.</p>
-            </article>
-            <article class="feature-card reveal reveal--delay-3">
-                <span class="feature-card__index">03</span>
-                <h3>Coaching and advisory support</h3>
-                <p>Work through use cases, vendor decisions, governance questions, and team adoption issues as AI tools change.</p>
-            </article>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container">
-        <div class="section-heading reveal">
-            <p class="eyebrow">Support scope</p>
-            <h2>What coaching and implementation can include.</h2>
-            <p>The exact scope depends on your team, systems, and risk profile, but the work stays focused on practical accounting workflows rather than generic AI training.</p>
-        </div>
-
-        <div class="feature-grid">
-            <article class="feature-card reveal">
-                <span class="feature-card__index">Build</span>
-                <h3>Workflow systems</h3>
-                <p>Prompts, SOPs, review steps, data handoffs, automation specs, and output templates for priority accounting workflows.</p>
-            </article>
-            <article class="feature-card reveal reveal--delay">
-                <span class="feature-card__index">Run</span>
-                <h3>Operating cadence</h3>
-                <p>Recurring workflow checks, issue tracking, adoption support, user enablement, and continuous improvement recommendations.</p>
-            </article>
-            <article class="feature-card reveal reveal--delay-2">
-                <span class="feature-card__index">Report</span>
-                <h3>Executive visibility</h3>
-                <p>Monthly AI audit reports that summarize usage, exceptions, controls, savings opportunities, and the next highest-leverage moves.</p>
-            </article>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container">
-        <div class="cta-band reveal">
-            <div>
-                <p class="eyebrow">Build it for us</p>
-                <h2>Ready for help turning the ideas into operating reality?</h2>
-                <p>Start with a readiness call. We will identify where coaching or implementation support can create the fastest controlled wins.</p>
-            </div>
-            <div class="button-row button-row--compact">
-                <a href="mailto:bennett@catalystcfo.co?subject=AI%20Coaching%20and%20Implementation" class="btn btn--primary">Book a readiness call</a>
-                <a href="{{ url_for('resources') }}" class="btn btn--secondary">Browse free resources</a>
-            </div>
+        <div class="coaching-callout reveal reveal--delay">
+            <span class="pill">Limited availability</span>
+            <h2>Tell me what you want to build or learn.</h2>
+            <p>A short email is enough to start. Include your role, the workflow or question on your mind, and what a useful outcome would look like.</p>
+            <a href="mailto:bennett@catalystcfo.co?subject=1%3A1%20AI%20Coaching" class="btn btn--primary">Start the conversation</a>
         </div>
     </div>
 </section>

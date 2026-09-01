@@ -7,25 +7,25 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-L4FSX1DVPV');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>{% block title %}Augmentic Accounting{% endblock %}</title>
-    <meta name="description" content="{% block description %}Free AI accounting resources, coaching, and implementation support for service-business accounting teams.{% endblock %}">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v=20260528-article-detail-spacing">
+    <meta name="description" content="{% block description %}Practical AI field notes, videos, tools, and coaching for accountants who want to shape what comes next.{% endblock %}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v=20260901-simple-focus">
     <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script defer src="{{ url_for('static', path='js/site.js') }}?v=20260528-article-detail-spacing"></script>
+    <script defer src="{{ url_for('static', path='js/site.js') }}?v=20260901-simple-focus"></script>
 </head>
 <body>
     {% set current_path = request.url.path %}
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="site-shell">
         <header class="site-header">
-            <nav class="nav">
+            <nav class="nav" aria-label="Primary navigation">
                 <div class="container nav__container">
                     <a href="{{ url_for('home') }}" class="nav__brand" aria-label="Augmentic Accounting home">
                         <span class="nav__brand-mark">A</span>
@@ -33,33 +33,22 @@
                             <span class="nav__logo">Augmentic Accounting</span>
                         </span>
                     </a>
-
-                    <button
-                        class="nav__toggle"
-                        type="button"
-                        aria-expanded="false"
-                        aria-controls="primary-nav"
-                        aria-label="Toggle navigation"
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">
+                        <span></span><span></span><span></span>
                     </button>
-
                     <div class="nav__panel" id="primary-nav">
-                        <a href="{{ url_for('home') }}" class="nav__link {% if current_path == '/' %}is-active{% endif %}">Home</a>
-                        <a href="{{ url_for('home') }}#offers" class="nav__link">Work With Me</a>
-                        <a href="{{ url_for('coaching') }}" class="nav__link {% if current_path == '/coaching' %}is-active{% endif %}">Coaching</a>
-                        <a href="{{ url_for('home') }}#case-studies" class="nav__link">Use Cases</a>
-                        <a href="{{ url_for('list_all_articles') }}" class="nav__link {% if current_path[:9] == '/articles' %}is-active{% endif %}">Articles</a>
-                        <a href="{{ url_for('resources') }}" class="nav__link {% if current_path == '/resources' %}is-active{% endif %}">Resources</a>
-                        <a href="mailto:bennett@catalystcfo.co?subject=AI%20Readiness%20Call" class="btn btn--nav">Book Call</a>
+                        <a href="{{ url_for('home') }}#newsletter" class="nav__link">Newsletter</a>
+                        <a href="https://www.youtube.com/@AugmenticAccounting" class="nav__link" target="_blank" rel="noopener">YouTube</a>
+                        <a href="{{ url_for('home') }}#offers" class="nav__link">Products &amp; coaching</a>
+                        <a href="{{ url_for('list_all_articles') }}" class="nav__link {% if current_path[:9] == '/articles' %}is-active{% endif %}" {% if current_path[:9] == '/articles' %}aria-current="page"{% endif %}>Articles</a>
+                        <a href="{{ url_for('about') }}" class="nav__link {% if current_path == '/about' %}is-active{% endif %}" {% if current_path == '/about' %}aria-current="page"{% endif %}>About</a>
+                        <a href="https://augmentic-accounting.kit.com/690ce48b27" class="btn btn--nav">Join the newsletter</a>
                     </div>
                 </div>
             </nav>
         </header>
 
-        <main class="page-content">
+        <main class="page-content" id="main-content">
             {% block content %}{% endblock %}
         </main>
 
@@ -68,46 +57,42 @@
                 <div class="footer__top">
                     <div>
                         <p class="eyebrow eyebrow--light">Augmentic Accounting</p>
-                        <h2>Practical AI accounting guidance, with dedicated help when you need it.</h2>
-                        <p class="footer__lede">Articles and resources stay available for self-guided learning. Client work is focused on coaching and hands-on implementation for teams that want practical AI adoption with controls.</p>
+                        <h2>Useful ideas for accountants building what comes next.</h2>
+                        <p class="footer__lede">Practical field notes, honest tool reviews, and hands-on education from Bennett Bernard, CPA.</p>
                     </div>
-                    <div class="footer__contact-card">
-                        <p class="footer__label">Contact</p>
-                        <a href="mailto:bennett@catalystcfo.co" class="footer__contact-link">bennett@catalystcfo.co</a>
-                        <a href="tel:+14809335878" class="footer__contact-link">(480) 933-5878</a>
+                    <div class="footer__contact-card footer__signup-card">
+                        <p class="footer__label">Start here</p>
+                        <a href="https://augmentic-accounting.kit.com/690ce48b27" class="btn btn--primary">Join the newsletter</a>
+                        <a href="https://www.youtube.com/@AugmenticAccounting" class="footer__contact-link" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
                     </div>
                 </div>
-
                 <div class="footer__grid">
                     <div>
-                        <h3>Navigate</h3>
+                        <h3>Explore</h3>
                         <ul class="footer__list">
-                            <li><a href="{{ url_for('home') }}" class="footer__link">Home</a></li>
-                            <li><a href="{{ url_for('home') }}#offers" class="footer__link">Work With Me</a></li>
-                            <li><a href="{{ url_for('coaching') }}" class="footer__link">Coaching & Implementation</a></li>
+                            <li><a href="{{ url_for('home') }}#newsletter" class="footer__link">Newsletter</a></li>
+                            <li><a href="https://www.youtube.com/@AugmenticAccounting" class="footer__link" target="_blank" rel="noopener">YouTube</a></li>
                             <li><a href="{{ url_for('list_all_articles') }}" class="footer__link">Articles</a></li>
-                            <li><a href="{{ url_for('resources') }}" class="footer__link">Resources</a></li>
                             <li><a href="{{ url_for('about') }}" class="footer__link">About</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h3>Focus</h3>
+                        <h3>Go deeper</h3>
                         <ul class="footer__list">
-                            <li>Free AI and automation resources for accountants</li>
-                            <li>Coaching for practical tool adoption</li>
-                            <li>Implementation support for governed workflows</li>
+                            <li><a href="{{ url_for('resources') }}" class="footer__link">Digital products</a></li>
+                            <li><a href="{{ url_for('resources') }}#webinars" class="footer__link">Live webinars</a></li>
+                            <li><a href="{{ url_for('coaching') }}" class="footer__link">1:1 coaching</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h3>Built For</h3>
+                        <h3>Contact</h3>
                         <ul class="footer__list">
-                            <li>CFOs, controllers, and accounting managers</li>
-                            <li>Service businesses with repeatable finance workflows</li>
-                            <li>Teams that need AI adoption with controls</li>
+                            <li><a href="mailto:bennett@catalystcfo.co" class="footer__link">bennett@catalystcfo.co</a></li>
+                            <li><a href="https://www.linkedin.com/in/bennett-bernard-cpa/" class="footer__link" target="_blank" rel="noopener">LinkedIn</a></li>
+                            <li><a href="https://x.com/TheRealTechCPA" class="footer__link" target="_blank" rel="noopener">X / Twitter</a></li>
                         </ul>
                     </div>
                 </div>
-
                 <div class="footer__bottom">
                     <p>&copy; Catalyst CFO LLC. All rights reserved.</p>
                 </div>
