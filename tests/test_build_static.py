@@ -61,4 +61,4 @@ def test_primary_audience_paths_are_prominent(tmp_path: Path) -> None:
     assert "Coming soon" in products
 
     coaching = (dist / "coaching" / "index.html").read_text(encoding="utf-8")
-    assert "1:1 AI Coaching for Accountants" in coaching
+    assert "Applied AI Coaching for Finance Leaders" in coaching
