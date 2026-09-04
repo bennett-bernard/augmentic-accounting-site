@@ -52,11 +52,12 @@ The page source is `articles/2026/09/ai-videos-for-accountants.md`. Its
 articles continue using the standard template. Both original example MP4s and
 their poster images are in `static/video/ai-videos-for-accountants/`.
 
-The walkthrough is awaiting upload. Before publishing this page, set
-`youtube_id` to the uploaded video's 11-character ID (not its full URL), run the
-tests/build, and check the player. An empty ID shows an honest coming-soon
-caption with no broken embed. Once set, the thumbnail opens a privacy-enhanced
-YouTube embed on click; the link also works with JavaScript disabled.
+The page can be published with the examples while the walkthrough is awaiting
+upload. An empty `youtube_id` shows a coming-soon caption with no broken embed.
+When the walkthrough is available, set `youtube_id` to its 11-character ID
+(not its full URL), run the tests/build, check the actual player, and redeploy.
+Once set, the thumbnail opens a privacy-enhanced YouTube embed on click; the
+link also works with JavaScript disabled.
 
 The portrait videos load on demand, start muted, and retain their original
 audio for visitors to enable. Their download links serve the original files.
