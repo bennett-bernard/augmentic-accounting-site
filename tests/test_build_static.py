@@ -64,7 +64,9 @@ def test_primary_audience_paths_are_prominent(tmp_path: Path) -> None:
     build_static(dist)
 
     homepage = (dist / "index.html").read_text(encoding="utf-8")
-    assert "https://augmentic-accounting.kit.com/690ce48b27" in homepage
+    assert "https://augmentic-accounting.kit.com/407e73b0c9" in homepage
+    assert "https://augmentic-accounting.kit.com/2473c7c8c4/index.js" in homepage
+    assert "https://augmentic-accounting.kit.com/690ce48b27" not in homepage
     assert "https://www.youtube.com/@AugmenticAccounting" in homepage
     assert 'id="newsletter"' in homepage
     assert 'id="offers"' in homepage

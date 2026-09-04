@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>{% block title %}Augmentic Accounting{% endblock %}</title>
     <meta name="description" content="{% block description %}An applied AI lab for accounting and finance leaders building AI-empowered teams, infrastructure, and results beyond generic prompting.{% endblock %}">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v=20260901-crisp-editorial">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v=20260904-newsletter-form">
     <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,7 +43,7 @@
                         <a href="{{ url_for('home') }}#offers" class="nav__link">Products &amp; coaching</a>
                         <a href="{{ url_for('list_all_articles') }}" class="nav__link {% if current_path[:9] == '/articles' %}is-active{% endif %}" {% if current_path[:9] == '/articles' %}aria-current="page"{% endif %}>Articles</a>
                         <a href="{{ url_for('about') }}" class="nav__link {% if current_path == '/about' %}is-active{% endif %}" {% if current_path == '/about' %}aria-current="page"{% endif %}>About</a>
-                        <a href="https://augmentic-accounting.kit.com/690ce48b27" class="btn btn--nav">Join the newsletter</a>
+                        <a href="https://augmentic-accounting.kit.com/407e73b0c9" class="btn btn--nav">Join the newsletter</a>
                     </div>
                 </div>
             </nav>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="footer__contact-card footer__signup-card">
                         <p class="footer__label">Start here</p>
-                        <a href="https://augmentic-accounting.kit.com/690ce48b27" class="btn btn--primary">Join the newsletter</a>
+                        <a href="https://augmentic-accounting.kit.com/407e73b0c9" class="btn btn--primary">Join the newsletter</a>
                         <a href="https://www.youtube.com/@AugmenticAccounting" class="footer__contact-link" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
                     </div>
                 </div>
