@@ -24,6 +24,7 @@ def test_collect_routes_includes_pages_and_articles() -> None:
     assert {"/", "/about", "/articles", "/coaching", "/resources"} <= routes
     assert "/articles/2026/02/claude-code-reconciliation-in-action" in routes
     assert "/articles/2026/05/core-four-ai-agents-for-accountants" in routes
+    assert "/articles/2026/09/ai-videos-for-accountants" in routes
 
 
 def test_build_static_renders_every_route_and_copies_assets(tmp_path: Path) -> None:
@@ -41,6 +42,21 @@ def test_build_static_renders_every_route_and_copies_assets(tmp_path: Path) -> N
     assert (
         dist / "static" / "audio" / "AugmenticBlogRecording20251013_audio.m4a"
     ).is_file()
+
+    companion_route = "/articles/2026/09/ai-videos-for-accountants"
+    companion = output_file_for(companion_route, dist).read_text(encoding="utf-8")
+    assert "<iframe" not in companion
+    assert ('Full walkthrough coming soon.' in companion) or ('data-youtube-id=' in companion)
+    assert companion.count('<video ') == 2
+    assert companion.count('preload="none"') == 2
+    assert 'css/video-companion.css' in companion
+    assert 'js/video-companion.js' in companion
+    for filename in ("tax-return-summary.mp4", "puka-surfboards-pl.mp4"):
+        relative = Path("static/video/ai-videos-for-accountants") / filename
+        assert (dist / relative).read_bytes() == relative.read_bytes()
+        assert f'download="{filename}"' in companion
+    for route in ("/", "/articles", "/articles/2026", "/articles/2026/09"):
+        assert companion_route in output_file_for(route, dist).read_text(encoding="utf-8")
 
 
 def test_primary_audience_paths_are_prominent(tmp_path: Path) -> None:

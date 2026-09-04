@@ -188,9 +188,14 @@ def get_article(request: Request, year: str, month: str, article_name: str):
 
     html_content = markdown(post.content)
 
-    # Pass the HTML content and title to the template
+    template = (
+        "article-video.html"
+        if post.metadata.get("layout") == "video-companion"
+        else "article-detail.html"
+    )
+
     return templates.TemplateResponse(
         request,
-        "article-detail.html",
+        template,
         {"content": html_content, "metadata": post.metadata},
     )

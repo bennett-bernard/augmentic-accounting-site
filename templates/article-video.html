@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}{{ metadata.title }} | Augmentic Accounting{% endblock %}
+{% block description %}{{ metadata.excerpt }}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/video-companion.css') }}?v=20260904">
+<script defer src="{{ url_for('static', path='js/video-companion.js') }}?v=20260904"></script>
+{% endblock %}
+
+{% block content %}
+<article class="video-companion">
+    <header class="companion-intro container">
+        <a href="{{ url_for('list_all_articles') }}" class="breadcrumb-link">&larr; All articles</a>
+        <p class="eyebrow">Watch &amp; explore</p>
+        <h1>{{ metadata.title }}</h1>
+        <p class="companion-lead">{{ metadata.subtitle }}</p>
+        <div class="companion-meta">
+            <span>By {{ metadata.author }}</span>
+            <span>{{ metadata.duration }}</span>
+            <span>Two finished examples</span>
+        </div>
+        <nav class="companion-jump" aria-label="On this page">
+            <a href="#walkthrough">The walkthrough <span aria-hidden="true">&darr;</span></a>
+            <a href="#examples">The examples <span aria-hidden="true">&darr;</span></a>
+        </nav>
+    </header>
+
+    <section class="companion-walkthrough container" id="walkthrough" aria-labelledby="walkthrough-title">
+        <div class="companion-section-label">
+            <h2 id="walkthrough-title">The full walkthrough</h2>
+            <span>Codex &middot; ChatGPT &middot; Remotion</span>
+        </div>
+        <div class="companion-player">
+            {% if metadata.youtube_id %}
+            <a class="companion-poster-link" href="https://www.youtube.com/watch?v={{ metadata.youtube_id }}" data-youtube-id="{{ metadata.youtube_id }}" aria-label="Play the full walkthrough: {{ metadata.title }}">
+                <img src="{{ url_for('static', path=metadata.poster) }}" alt="" width="1672" height="941" fetchpriority="high">
+                <span class="companion-play"><span aria-hidden="true">&#9654;</span> Watch the walkthrough</span>
+            </a>
+            {% else %}
+            <img src="{{ url_for('static', path=metadata.poster) }}" alt="PDF to video with AI — Bennett Bernard introduces the walkthrough." width="1672" height="941" fetchpriority="high">
+            {% endif %}
+        </div>
+        {% if metadata.youtube_id %}
+        <p class="companion-caption">Follow the prompts, see the results, and hear what I'd still clean up. <a href="https://www.youtube.com/watch?v={{ metadata.youtube_id }}">Watch on YouTube <span aria-hidden="true">&nearr;</span></a></p>
+        {% else %}
+        <p class="companion-caption"><strong>Full walkthrough coming soon.</strong> Explore both finished videos below.</p>
+        {% endif %}
+    </section>
+
+    <section class="companion-examples" id="examples" aria-labelledby="examples-title">
+        <div class="container">
+            <div class="companion-section-heading">
+                <p class="eyebrow">The finished videos</p>
+                <h2 id="examples-title">See the finished examples.</h2>
+                <p>Watch each video in its original vertical format, or download the file for a closer look.</p>
+            </div>
+            <div class="companion-example-grid">
+                {% for example in metadata.examples %}
+                <figure class="companion-example">
+                    <div class="companion-portrait-stage">
+                        <video class="companion-portrait" controls playsinline muted preload="none" width="540" height="960" poster="{{ url_for('static', path='video/ai-videos-for-accountants/' ~ example.poster) }}" aria-label="{{ example.title }} 30-second example">
+                            <source src="{{ url_for('static', path='video/ai-videos-for-accountants/' ~ example.file) }}" type="video/mp4">
+                            Your browser cannot play this video. <a href="{{ url_for('static', path='video/ai-videos-for-accountants/' ~ example.file) }}">Download the MP4</a> to watch it.
+                        </video>
+                    </div>
+                    <figcaption>
+                        <p class="companion-example-label">{{ example.label }}</p>
+                        <h3>{{ example.title }}</h3>
+                        <p>{{ example.description }}</p>
+                        <a class="companion-download" href="{{ url_for('static', path='video/ai-videos-for-accountants/' ~ example.file) }}" download="{{ example.file }}">{{ example.download_label }} <span aria-hidden="true">&darr;</span><span class="companion-file-size">MP4 &middot; {{ example.size }}</span></a>
+                    </figcaption>
+                </figure>
+                {% endfor %}
+            </div>
+            <p class="companion-examples-note">Both examples use sample or fictional information. Sound starts muted; use the player controls to turn it on.</p>
+        </div>
+    </section>
+
+    <section class="companion-workflow container" aria-label="The workflow">
+        <div class="companion-workflow-copy">{{ content | safe }}</div>
+    </section>
+
+    <aside class="companion-newsletter container" aria-labelledby="companion-newsletter-title">
+        <div>
+            <p class="eyebrow">Keep exploring</p>
+            <h2 id="companion-newsletter-title">More practical AI for accountants.</h2>
+            <p>Get the next experiment, useful workflow, and honest take in your inbox.</p>
+        </div>
+        <a href="https://augmentic-accounting.kit.com/690ce48b27" class="btn btn--primary">Join the free newsletter</a>
+    </aside>
+</article>
+{% endblock %}
