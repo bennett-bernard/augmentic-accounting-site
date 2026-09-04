@@ -3,7 +3,7 @@
 {% block title %}{{ metadata.title }} | Augmentic Accounting{% endblock %}
 {% block description %}{{ metadata.excerpt }}{% endblock %}
 {% block extra_head %}
-<link rel="stylesheet" href="{{ url_for('static', path='css/video-companion.css') }}?v=20260904">
+<link rel="stylesheet" href="{{ url_for('static', path='css/video-companion.css') }}?v=20260904-youtube">
 <script defer src="{{ url_for('static', path='js/video-companion.js') }}?v=20260904"></script>
 {% endblock %}
 
@@ -11,7 +11,6 @@
 <article class="video-companion">
     <header class="companion-intro container">
         <a href="{{ url_for('list_all_articles') }}" class="breadcrumb-link">&larr; All articles</a>
-        <p class="eyebrow">Watch &amp; explore</p>
         <h1>{{ metadata.title }}</h1>
         <p class="companion-lead">{{ metadata.subtitle }}</p>
         <div class="companion-meta">
@@ -50,7 +49,6 @@
     <section class="companion-examples" id="examples" aria-labelledby="examples-title">
         <div class="container">
             <div class="companion-section-heading">
-                <p class="eyebrow">The finished videos</p>
                 <h2 id="examples-title">See the finished examples.</h2>
                 <p>Watch each video in its original vertical format, or download the file for a closer look.</p>
             </div>
@@ -82,7 +80,6 @@
 
     <aside class="companion-newsletter container" aria-labelledby="companion-newsletter-title">
         <div>
-            <p class="eyebrow">Keep exploring</p>
             <h2 id="companion-newsletter-title">More practical AI for accountants.</h2>
             <p>Get the next experiment, useful workflow, and honest take in your inbox.</p>
         </div>

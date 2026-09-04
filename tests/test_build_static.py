@@ -46,7 +46,11 @@ def test_build_static_renders_every_route_and_copies_assets(tmp_path: Path) -> N
     companion_route = "/articles/2026/09/ai-videos-for-accountants"
     companion = output_file_for(companion_route, dist).read_text(encoding="utf-8")
     assert "<iframe" not in companion
-    assert ('Full walkthrough coming soon.' in companion) or ('data-youtube-id=' in companion)
+    assert 'data-youtube-id="KiLT8RbUKCw"' in companion
+    assert "https://www.youtube.com/watch?v=KiLT8RbUKCw" in companion
+    assert "Full walkthrough coming soon." not in companion
+    for eyebrow in ("Watch &amp; explore", "The finished videos", "Keep exploring"):
+        assert eyebrow not in companion
     assert companion.count('<video ') == 2
     assert companion.count('preload="none"') == 2
     assert 'css/video-companion.css' in companion

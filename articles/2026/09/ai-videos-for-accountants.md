@@ -7,8 +7,7 @@ tags: [AI workflows, Remotion, Client communication]
 excerpt: "A hands-on look at turning financial information into short videos with Codex, ChatGPT, and Remotion. Watch the walkthrough and explore both finished examples."
 subtitle: "I used Codex, ChatGPT, and Remotion to turn a sample tax return and a fictional company's P&L into short videos. Here's the process—and the finished results."
 duration: "24-minute walkthrough"
-# Add the 11-character YouTube video ID after the walkthrough is uploaded.
-youtube_id: ""
+youtube_id: "KiLT8RbUKCw"
 poster: "video/ai-videos-for-accountants/walkthrough.jpg"
 examples:
   - title: "A tax return, explained."
