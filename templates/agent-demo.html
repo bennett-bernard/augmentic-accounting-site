@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Agent Demo | Augmentic Accounting{% endblock %}
+{% block description %}Try MCP tools, article resources, and reusable prompts, then see declarative and imperative WebMCP tools in action.{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/agent-demo.css') }}">
+<script type="module" src="{{ url_for('static', path='js/agent-demo.mjs') }}"></script>
+{% endblock %}
+{% block content %}
+<section class="section demo-hero">
+    <div class="container">
+        <a href="{{ url_for('resources') }}" class="breadcrumb-link">Back to resources</a>
+        <p class="eyebrow">The applied AI lab · Interactive demo</p>
+        <h1>A website an<br>agent can use.</h1>
+        <p class="demo-lead">Give an agent a useful tool, a source it can read, and a prompt it can reuse. Then bring that same interaction into the browser.</p>
+        <div class="demo-jump-links">
+            <a class="btn btn--primary" href="#server-demo">Try the MCP server <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#browser-demo">Explore WebMCP <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="demo-facts"><span>Real published articles</span><span>No account required</span><span>No model API key needed</span></div>
+    </div>
+</section>
+
+<section class="section section--soft" id="server-demo" aria-labelledby="server-heading">
+    <div class="container">
+        <div class="demo-section-heading">
+            <span class="demo-number">01</span>
+            <div><p class="eyebrow">Standard MCP · Server</p><h2 id="server-heading">Three ways to help an agent.</h2><p>These controls make real requests to the site's MCP endpoint. An MCP client can use the same tools, resources, and prompts.</p></div>
+        </div>
+        <div class="demo-endpoint"><span>Streamable HTTP endpoint</span><code id="mcp-endpoint">/mcp</code><button type="button" class="demo-copy" id="copy-endpoint">Copy URL</button><span id="copy-status" class="sr-only" role="status"></span></div>
+        <div class="demo-primitives">
+            <article class="demo-panel">
+                <p class="eyebrow">Tool · Do something</p><h3>Find an article.</h3><p>Search the library and return useful results with source links.</p>
+                <code class="demo-method">search_articles</code>
+                <form id="mcp-search-form" class="demo-form">
+                    <label for="mcp-query">Search words</label><input id="mcp-query" name="query" value="videos" required maxlength="200">
+                    <button type="submit" class="btn btn--secondary">Run search <span aria-hidden="true">→</span></button>
+                </form>
+            </article>
+            <article class="demo-panel">
+                <p class="eyebrow">Resource · Read something</p><h3>Read the source.</h3><p>Open the full article as Markdown, with its canonical URL.</p>
+                <code class="demo-method">resources/read</code>
+                <form id="mcp-resource-form" class="demo-form">
+                    <label for="mcp-resource">Published article</label><select id="mcp-resource" name="uri" required>{% for article in articles %}<option value="{{ article.resourceUri }}">{{ article.title }}</option>{% endfor %}</select>
+                    <button type="submit" class="btn btn--secondary" {% if not articles %}disabled{% endif %}>Read article <span aria-hidden="true">→</span></button>
+                </form>
+            </article>
+            <article class="demo-panel">
+                <p class="eyebrow">Prompt · Start with a pattern</p><h3>Prepare a lesson.</h3><p>Get reusable instructions and sources for a team learning session.</p>
+                <code class="demo-method">plan_ai_learning_session</code>
+                <form id="mcp-prompt-form" class="demo-form">
+                    <label for="mcp-audience">Audience</label><input id="mcp-audience" name="audience" value="accounting managers" required maxlength="100">
+                    <label for="mcp-topic">Topic</label><input id="mcp-topic" name="topic" value="videos" required maxlength="200">
+                    <button type="submit" class="btn btn--secondary">Get prompt <span aria-hidden="true">→</span></button>
+                </form>
+            </article>
+        </div>
+        <div class="demo-response" id="mcp-response">
+            <div class="demo-response-heading"><h3>Server response</h3><span id="mcp-status" role="status">Ready to try</span></div>
+            <p id="mcp-response-note">Choose an action above to see what an MCP client receives. A prompt returns instructions; your chosen model generates the lesson.</p>
+            <pre id="mcp-output" tabindex="0" aria-label="MCP response" hidden></pre>
+        </div>
+        <noscript><p class="demo-notice">Enable JavaScript to try the controls, or connect an MCP client directly to <code>/mcp</code>.</p></noscript>
+    </div>
+</section>
+
+<section class="section" id="browser-demo" aria-labelledby="browser-heading">
+    <div class="container">
+        <div class="demo-section-heading">
+            <span class="demo-number">02</span>
+            <div><p class="eyebrow">WebMCP · Browser</p><h2 id="browser-heading">The page joins the conversation.</h2><p>A declarative tool turns a normal form into an agent action. An imperative tool calls JavaScript to update the page. Try both by hand below.</p></div>
+        </div>
+        <p class="demo-notice" id="webmcp-status" role="status">Checking browser support. The search and preview controls also work without WebMCP.</p>
+        <div class="demo-browser-grid">
+            <div>
+                <div class="demo-panel demo-search-panel">
+                    <p class="eyebrow">Declarative API · HTML form</p><h3>Search the library.</h3>
+                    <p>An agent fills the search field; you click Search articles to submit it.</p>
+                    <code class="demo-method">demo_find_articles</code>
+                    <form id="article-search" class="demo-form" action="/articles" method="get" toolname="demo_find_articles" tooldescription="Find published Augmentic Accounting articles. Enter search words; the user submits the form. Results include article IDs that demo_preview_article can preview.">
+                        <label for="browser-query">Search words</label>
+                        <div class="demo-search-controls"><input id="browser-query" name="query" value="videos" required maxlength="200" toolparamdescription="Words to find in the article title, summary, tags, or body, for example videos or reconciliation."><button type="submit" class="btn btn--primary">Search articles</button></div>
+                    </form>
+                    <p id="search-status" class="demo-small" role="status">{{ articles|length }} published articles. Search to narrow the list.</p>
+                </div>
+                <div id="article-results" class="demo-article-list" aria-label="Article search results">
+                    {% for article in articles %}
+                    <article class="demo-article" data-article-id="{{ article.id }}">
+                        <p class="demo-article-date">{{ article.date }}</p><h4><a href="{{ article.url }}">{{ article.title }}</a></h4><p>{{ article.excerpt }}</p>
+                        <button type="button" class="text-link" data-preview-id="{{ article.id }}">Preview article <span aria-hidden="true">→</span></button>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="demo-preview-column">
+                <div class="demo-panel">
+                    <p class="eyebrow">Imperative API · JavaScript</p><h3>Bring an article into view.</h3><p>An agent calls a registered function. The page shows the preview and returns the article's details.</p>
+                    <code class="demo-method">demo_preview_article</code>
+                    <form id="preview-form" class="demo-form">
+                        <label for="preview-article">Published article</label><select id="preview-article" name="articleId" required>{% for article in articles %}<option value="{{ article.id }}">{{ article.title }}</option>{% endfor %}</select>
+                        <button type="submit" class="btn btn--secondary" {% if not articles %}disabled{% endif %}>Show preview <span aria-hidden="true">→</span></button>
+                    </form>
+                </div>
+                <div id="article-preview" class="demo-preview" tabindex="-1" aria-label="Selected article preview">
+                    <p class="eyebrow">Article preview</p><p>Choose an article to see this part of the page respond.</p>
+                </div>
+                <div class="demo-activity"><h3>What happened</h3><p id="activity-status" class="demo-small" role="status">Your next action will appear here.</p><ol id="activity-log" aria-label="Recent demo actions"></ol></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--soft" aria-labelledby="walkthrough-heading">
+    <div class="container demo-walkthrough">
+        <div><p class="eyebrow">Try it with an agent</p><h2 id="walkthrough-heading">From clicks to tool calls.</h2><p>The buttons demonstrate the behavior. Connect a client to let an agent discover and use it.</p></div>
+        <ol class="demo-steps">
+            <li><h3>Connect an MCP client.</h3><p>Choose Streamable HTTP and use the endpoint above. List tools, resources, and prompts. Try <code>search_articles</code> with <code>{"query":"videos"}</code>, then read a returned resource URI.</p></li>
+            <li><h3>Open a WebMCP-capable browser.</h3><p>Enable WebMCP testing using <a href="https://developer.chrome.com/docs/ai/webmcp" target="_blank" rel="noopener">Chrome's current setup instructions</a>. Keep this page open and inspect its registered tools.</p></li>
+            <li><h3>Ask the agent to search, then preview.</h3><p>Try “Use <code>demo_find_articles</code> to find videos.” Submit the populated form, then ask it to preview a returned article with <code>demo_preview_article</code>. Watch the page and activity log update.</p></li>
+        </ol>
+        <p class="demo-small demo-bridge-note">Cloudflare's WebMCP bridge can also expose the server's <code>search_articles</code> tool in the browser. Resources and prompts remain available through the MCP endpoint.</p>
+    </div>
+</section>
+{% endblock %}

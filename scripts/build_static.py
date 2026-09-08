@@ -1,15 +1,17 @@
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import sys
 from pathlib import Path
+from urllib.parse import quote
+from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 ARTICLES = ROOT / "articles"
 STATIC = ROOT / "static"
-ORIGIN = "https://augmenticaccounting.com"
 
 # main.py currently resolves templates, articles, and static files from the
 # repository root. Make the build command work regardless of its caller's cwd.
@@ -20,6 +22,7 @@ from fastapi.testclient import TestClient  # noqa: E402
 from fastapi.routing import APIRoute  # noqa: E402
 
 from main import app  # noqa: E402
+from site_content import ORIGIN, load_articles  # noqa: E402
 
 
 def output_file_for(route: str, dist: Path = DIST) -> Path:
@@ -84,7 +87,30 @@ def build_static(dist: Path = DIST) -> set[str]:
             output_file.write_text(html, encoding="utf-8")
 
     shutil.copytree(STATIC, dist / "static")
+    index = dist / "static" / "data" / "articles.json"
+    index.parent.mkdir(parents=True, exist_ok=True)
+    index.write_text(
+        json.dumps(load_articles(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    write_crawler_files(routes, dist)
     return routes
+
+
+def write_crawler_files(routes: set[str], dist: Path) -> None:
+    """Keep crawler discovery in sync with the pages rendered by this build."""
+    urlset = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
+    for route in sorted(routes):
+        url = ET.SubElement(urlset, "url")
+        ET.SubElement(url, "loc").text = ORIGIN + quote(route, safe="/")
+
+    ET.indent(urlset, space="  ")
+    ET.ElementTree(urlset).write(
+        dist / "sitemap.xml", encoding="utf-8", xml_declaration=True
+    )
+    (dist / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n",
+        encoding="utf-8",
+    )
 
 
 def main() -> None:

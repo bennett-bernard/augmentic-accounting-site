@@ -6,6 +6,7 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 import mimetypes
 import os
 import frontmatter
+from site_content import load_articles
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -64,6 +65,11 @@ def about(request: Request):
 @app.get("/resources")
 def resources(request: Request):
     return templates.TemplateResponse(request, "resources.html")
+
+
+@app.get("/agent-demo")
+def agent_demo(request: Request):
+    return templates.TemplateResponse(request, "agent-demo.html", {"articles": load_articles()})
 
 
 @app.get("/coaching")
