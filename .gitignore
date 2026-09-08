@@ -209,3 +209,7 @@ __marimo__/
 # Node / Cloudflare local state
 node_modules/
 .wrangler/
+
+# Browser test artifacts
+playwright-report/
+test-results/

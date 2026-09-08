@@ -2,13 +2,14 @@
   "name": "augmentic-accounting-site",
   "version": "1.0.0",
   "private": true,
-  "description": "Static build and Cloudflare deployment tooling for Augmentic Accounting",
+  "description": "Augmentic Accounting website, MCP server, and WebMCP demo",
   "scripts": {
     "build": "uv run python scripts/build_static.py",
-    "test": "uv run pytest",
+    "test": "uv run pytest && playwright test",
     "dev": "npm run build && wrangler dev",
     "deploy:dry-run": "npm run build && wrangler deploy --dry-run",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy",
+    "test:integration": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,13 @@
   },
   "homepage": "https://github.com/bennett-bernard/augmentic-accounting-site#readme",
   "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "@playwright/test": "1.63.0",
     "wrangler": "^4.127.1"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "agents": "0.22.0",
+    "zod": "4.5.4"
   }
 }
