@@ -37,7 +37,8 @@ test.describe('real native WebMCP', () => {
       const inquiry = await call(page, 'submit_contact_inquiry', contact);
       expect(inquiry).toMatchObject({ simulated: true, status: 'completed' });
       await assertDone(page);
-      expect((await call(page, 'submit_contact_inquiry', contact)).id).toBe(inquiry.id);
+      expect((await call(page, 'get_scenario_state')).receipt.id).toBe(inquiry.id);
+      expect(await page.evaluate(async () => (await document.modelContext.getTools()).some(tool => tool.name === 'submit_contact_inquiry'))).toBe(false);
       await page.goto(`/webmcp/${firm}/book-meeting?date=2026-09-14`);
       await expect(page.locator('#webmcp-status')).toContainText('Native WebMCP ready');
       const availability = await call(page, 'get_available_appointments', { appointmentType: 'intro', timeZone: 'America/Chicago', startDate: '2026-09-14', endDate: '2026-09-14' });

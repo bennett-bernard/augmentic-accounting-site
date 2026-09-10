@@ -22,6 +22,25 @@ function showError(error) {
   box.focus();
 }
 function safely(action) { try { return action(); } catch (error) { showError(error); } }
+function declarativeForm(name, description) {
+  return enabled ? `toolname="${name}" tooldescription="${esc(description)}" toolautosubmit` : '';
+}
+function submitForm(event, action) {
+  event.preventDefault();
+  const source = event.agentInvoked ? 'declarative-webmcp' : 'ui';
+  const name = event.currentTarget.getAttribute('toolname');
+  // Give the native event its promise before validation or rendering can throw or
+  // remove the form. Rejections reach the agent and the same visible error UI.
+  const result = Promise.resolve().then(() => {
+    if (event.agentInvoked) record(`tool:${name}`, source);
+    return action(source);
+  });
+  if (event.agentInvoked && typeof event.respondWith === 'function') event.respondWith(result);
+  result.catch(error => {
+    if (event.agentInvoked) record(`error:${name}`, source);
+    showError(error);
+  });
+}
 function complete(kind, title, message, detail, source) {
   if (receipt) return receipt;
   receipt = { id: `${kind}-${uid()}`, firm: firm.slug, scenario, simulated: true, status: 'completed', ...detail };
@@ -36,7 +55,7 @@ function complete(kind, title, message, detail, source) {
 }
 function field(name, label, options = {}) {
   const { type = 'text', required = true, full = false, value = '', choices, hint = '', ...attrs } = options;
-  const attributes = `${required ? 'required' : ''} ${Object.entries(attrs).map(([key, value]) => `${key}="${esc(value)}"`).join(' ')} ${hint ? `aria-describedby="${name}-hint"` : ''}`;
+  const attributes = `toolparamdescription="${esc([label, hint, type === 'date' ? 'YYYY-MM-DD' : ''].filter(Boolean).join('. '))}" ${required ? 'required' : ''} ${Object.entries(attrs).map(([key, value]) => `${key}="${esc(value)}"`).join(' ')} ${hint ? `aria-describedby="${name}-hint"` : ''}`;
   const control = choices
     ? `<select id="${name}" name="${name}" ${attributes}><option value="">Choose an option</option>${choices.map(item => { const [key, text] = Array.isArray(item) ? item : [item, item]; return `<option value="${esc(key)}" ${String(key) === String(value) ? 'selected' : ''}>${esc(text)}</option>`; }).join('')}</select>`
     : type === 'textarea'
@@ -53,7 +72,7 @@ function choices(name, label, options, selected = []) {
 function formData(form) {
   const result = {};
   for (const input of form.elements) {
-    if (!input.name || input.disabled || input.type === 'file') continue;
+    if (!input.name || input.matches(':disabled') || input.type === 'file') continue;
     if (input.type === 'checkbox') {
       if (input.value !== 'on') { result[input.name] ??= []; if (input.checked) result[input.name].push(input.value); }
       else result[input.name] = input.checked;
@@ -84,7 +103,7 @@ function fill(form, values) {
   if (!values || typeof values !== 'object' || Array.isArray(values)) fail('Provide a fields object.');
   // Check every key and type before changing the form.
   for (const [name, value] of Object.entries(values)) {
-    const inputs = [...form.elements].filter(input => input.name === name && !input.disabled);
+    const inputs = [...form.elements].filter(input => input.name === name && !input.matches(':disabled'));
     if (!inputs.length || inputs[0].type === 'file') fail(`Unknown or unavailable field: ${name}`);
     const input = inputs[0];
     if (input.type === 'checkbox' && input.value !== 'on') {
@@ -94,7 +113,7 @@ function fill(form, values) {
     else if (input.tagName === 'SELECT' && ![...input.options].some(option => option.value === String(value))) fail(`Use a listed option for ${name}.`);
   }
   for (const [name, value] of Object.entries(values)) {
-    const inputs = [...form.elements].filter(input => input.name === name && !input.disabled);
+    const inputs = [...form.elements].filter(input => input.name === name && !input.matches(':disabled'));
     for (const input of inputs) {
       if (input.type === 'checkbox') input.checked = input.value === 'on' ? value : value.includes(input.value);
       else input.value = String(value);
@@ -107,7 +126,7 @@ function formSchema() {
   const properties = {};
   const required = [];
   for (const input of form.elements) {
-    if (!input.name || input.disabled || input.type === 'file') continue;
+    if (!input.name || input.matches(':disabled') || input.type === 'file') continue;
     const description = input.labels?.[0]?.textContent?.trim() || input.name;
     if (input.type === 'checkbox' && input.value !== 'on') {
       properties[input.name] ??= { type: 'array', description: input.closest('fieldset').querySelector('legend').textContent, items: { type: 'string', enum: [] }, uniqueItems: true };
@@ -126,8 +145,8 @@ function formSchema() {
 
 // Contact workflow.
 function renderContact() {
-  root.innerHTML = `<form id="contact-form" novalidate><div class="fields">${field('name', 'Name', { autocomplete: 'name', maxlength: 160, full: true })}${field('email', 'Email address', { type: 'email', autocomplete: 'email', maxlength: 200 })}${field('phone', 'Phone number', { type: 'tel', required: false, autocomplete: 'tel', maxlength: 40 })}${field('message', 'Message', { type: 'textarea', full: true, minlength: 10, maxlength: 3000, placeholder: 'A little about your needs, questions, or goals…' })}</div><div class="form-actions"><button class="primary" type="submit">Send message <span aria-hidden="true">→</span></button></div><p class="form-note">Please use fictional details and leave out sensitive financial information.</p></form>`;
-  root.querySelector('form').onsubmit = event => { event.preventDefault(); safely(() => submitContact(undefined, 'ui')); };
+  root.innerHTML = `<form id="contact-form" novalidate ${declarativeForm('submit_contact_inquiry', 'Submit the visible fictional firm contact form and show a simulated confirmation. Use test contact details; nothing is sent.')}><div class="fields">${field('name', 'Name', { autocomplete: 'name', maxlength: 160, full: true })}${field('email', 'Email address', { type: 'email', autocomplete: 'email', maxlength: 200 })}${field('phone', 'Phone number', { type: 'tel', required: false, autocomplete: 'tel', maxlength: 40 })}${field('message', 'Message', { type: 'textarea', full: true, minlength: 10, maxlength: 3000, placeholder: 'A little about your needs, questions, or goals…' })}</div><div class="form-actions"><button class="primary" type="submit">Send message <span aria-hidden="true">→</span></button></div><p class="form-note">Please use fictional details and leave out sensitive financial information.</p></form>`;
+  root.querySelector('form').onsubmit = event => submitForm(event, source => submitContact(undefined, source));
 }
 function submitContact(values, source = 'webmcp') {
   if (receipt) return receipt;
@@ -212,9 +231,9 @@ function renderBooking() {
   root.querySelector('#continue-booking').onclick = () => { booking.stage = 'details'; record('booking_details_opened'); renderBookingDetails(); root.querySelector('input').focus(); };
 }
 function renderBookingDetails() {
-  root.innerHTML = `<button type="button" class="text-button" id="change-time">← Change date or time</button><h2 style="margin-top:20px">Your meeting details</h2><p class="booking-selection">${esc(slotSummary(booking.slot))}</p><form id="booking-form" novalidate><div class="fields">${field('firstName', 'First name', { value: booking.details.firstName, maxlength: 80 })}${field('lastName', 'Last name', { value: booking.details.lastName, maxlength: 80 })}${field('email', 'Email address', { type: 'email', full: true, value: booking.details.email, maxlength: 200 })}${field('meetingMethod', 'How would you like to meet?', { choices: [['video', 'Video call'], ['phone', 'Phone call']], value: booking.details.meetingMethod || 'video', full: true })}${field('phone', 'Phone number', { type: 'tel', value: booking.details.phone, required: false, full: true, maxlength: 40, hint: 'Required for a phone call.' })}${field('notes', 'Anything you would like us to know?', { type: 'textarea', value: booking.details.notes, required: false, full: true, maxlength: 2000 })}</div><div class="consent">${check('consent', 'I confirm these appointment details. *', booking.details.consent, true)}</div><div class="form-actions"><button type="submit" class="primary">Confirm appointment</button></div></form>`;
+  root.innerHTML = `<button type="button" class="text-button" id="change-time">← Change date or time</button><h2 style="margin-top:20px">Your meeting details</h2><p class="booking-selection">${esc(slotSummary(booking.slot))}</p><form id="booking-form" novalidate ${declarativeForm('confirm_appointment', `Confirm the appointment currently selected on this page: ${slotSummary(booking.slot)}. Fill the attendee details and show a simulated confirmation. Nothing is booked or sent.`)}><div class="fields">${field('firstName', 'First name', { value: booking.details.firstName, maxlength: 80 })}${field('lastName', 'Last name', { value: booking.details.lastName, maxlength: 80 })}${field('email', 'Email address', { type: 'email', full: true, value: booking.details.email, maxlength: 200 })}${field('meetingMethod', 'How would you like to meet?', { choices: [['video', 'Video call'], ['phone', 'Phone call']], value: booking.details.meetingMethod || 'video', full: true })}${field('phone', 'Phone number', { type: 'tel', value: booking.details.phone, required: false, full: true, maxlength: 40, hint: 'Required for a phone call.' })}${field('notes', 'Anything you would like us to know?', { type: 'textarea', value: booking.details.notes, required: false, full: true, maxlength: 2000 })}</div><div class="consent">${check('consent', 'I confirm these appointment details. *', booking.details.consent, true)}</div><div class="form-actions"><button type="submit" class="primary">Confirm appointment</button></div></form>`;
   root.querySelector('#change-time').onclick = () => { booking.details = formData(root.querySelector('form')); booking.stage = 'calendar'; renderBooking(); };
-  root.querySelector('form').onsubmit = event => { event.preventDefault(); safely(() => submitBooking(undefined, 'ui')); };
+  root.querySelector('form').onsubmit = event => submitForm(event, source => submitBooking(undefined, source));
 }
 function submitBooking(args, source = 'webmcp') {
   if (receipt) return receipt;
@@ -244,7 +263,7 @@ const today = dateKey(new Date());
 const states = 'AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split(' ');
 function householdFields(data) {
   let result = field('filingStatus', 'Expected filing status', { choices: filingStatuses, full: true, value: data.filingStatus });
-  if (['joint', 'separate'].includes(data.filingStatus)) result += `<div class="full subsection"><h3>Spouse information</h3><div class="fields">${field('spouseFirstName', 'Spouse first name', { value: data.spouseFirstName, maxlength: 80 })}${field('spouseLastName', 'Spouse last name', { value: data.spouseLastName, maxlength: 80 })}${field('spouseDob', 'Spouse date of birth', { type: 'date', max: today, value: data.spouseDob })}${field('spouseTaxIdLast4', 'Spouse tax ID — last 4 digits', { value: data.spouseTaxIdLast4, pattern: '[0-9]{4}', maxlength: 4, inputmode: 'numeric' })}</div></div>`;
+  result += `<fieldset class="full subsection" data-condition="spouse" ${['joint', 'separate'].includes(data.filingStatus) ? '' : 'hidden disabled'}><legend>Spouse information</legend><div class="fields">${field('spouseFirstName', 'Spouse first name', { value: data.spouseFirstName, maxlength: 80 })}${field('spouseLastName', 'Spouse last name', { value: data.spouseLastName, maxlength: 80 })}${field('spouseDob', 'Spouse date of birth', { type: 'date', max: today, value: data.spouseDob })}${field('spouseTaxIdLast4', 'Spouse tax ID — last 4 digits', { value: data.spouseTaxIdLast4, pattern: '[0-9]{4}', maxlength: 4, inputmode: 'numeric' })}</div></fieldset>`;
   result += `<div class="full"><h3>Dependents</h3><p class="helper">Add anyone you expect to claim. Leave empty if you have no dependents.</p>${intake.dependents.map((dependent, index) => `<div class="subsection"><div class="dependent-head"><strong>Dependent ${index + 1}</strong><button type="button" class="text-button" data-remove-dependent="${index}">Remove dependent ${index + 1}</button></div><div class="fields">${field(`dependent${index}Name`, 'Dependent full name', { value: dependent.name, maxlength: 120 })}${field(`dependent${index}Dob`, 'Dependent date of birth', { type: 'date', max: today, value: dependent.dob })}${field(`dependent${index}Relationship`, 'Relationship', { choices: ['Child', 'Parent', 'Other relative'], value: dependent.relationship })}${field(`dependent${index}Months`, 'Months living with you', { type: 'number', min: 0, max: 12, step: 1, value: dependent.months ?? '12' })}</div></div>`).join('')}<button type="button" id="add-dependent" class="secondary" style="margin-top:18px">+ Add dependent</button></div>`;
   return result;
 }
@@ -256,10 +275,10 @@ function saveCurrent() {
   if (intake.step === 1) intake.dependents = intake.dependents.map((_, index) => ({ name: data[`dependent${index}Name`] || '', dob: data[`dependent${index}Dob`] || '', relationship: data[`dependent${index}Relationship`] || '', months: data[`dependent${index}Months`] ?? '12' }));
 }
 function incomeFields(data) {
-  return choices('sources', 'Which types of income did you receive? *', incomeOptions, data.sources || []) + (data.sources?.includes('selfEmployment') ? `<div class="full subsection"><h3>About your business</h3><div class="fields">${field('businessName', 'Business name', { value: data.businessName, maxlength: 120 })}${field('businessType', 'Type of work', { value: data.businessType, maxlength: 120 })}${field('grossIncome', 'Gross business income ($)', { type: 'number', min: 0, step: '.01', value: data.grossIncome })}${field('businessExpenses', 'Business expenses ($)', { type: 'number', min: 0, step: '.01', value: data.businessExpenses })}</div></div>` : '') + field('incomeNotes', 'Additional income details', { type: 'textarea', required: false, full: true, value: data.incomeNotes, maxlength: 2000 });
+  return choices('sources', 'Which types of income did you receive? *', incomeOptions, data.sources || []) + `<fieldset class="full subsection" data-condition="business" ${data.sources?.includes('selfEmployment') ? '' : 'hidden disabled'}><legend>About your business</legend><div class="fields">${field('businessName', 'Business name', { value: data.businessName, maxlength: 120 })}${field('businessType', 'Type of work', { value: data.businessType, maxlength: 120 })}${field('grossIncome', 'Gross business income ($)', { type: 'number', min: 0, step: '.01', value: data.grossIncome })}${field('businessExpenses', 'Business expenses ($)', { type: 'number', min: 0, step: '.01', value: data.businessExpenses })}</div></fieldset>` + field('incomeNotes', 'Additional income details', { type: 'textarea', required: false, full: true, value: data.incomeNotes, maxlength: 2000 });
 }
 function deductionFields(data) {
-  return choices('deductions', 'Which items apply to you? *', deductionOptions, data.deductions || []) + (data.deductions?.includes('charity') ? field('charityAmount', 'Total charitable donations ($)', { type: 'number', min: 0, step: '.01', value: data.charityAmount, full: true }) : '') + field('deductionNotes', 'Anything else we should know?', { type: 'textarea', required: false, full: true, value: data.deductionNotes, maxlength: 2000 });
+  return choices('deductions', 'Which items apply to you? *', deductionOptions, data.deductions || []) + `<fieldset class="full" data-condition="charity" ${data.deductions?.includes('charity') ? '' : 'hidden disabled'}>${field('charityAmount', 'Total charitable donations ($)', { type: 'number', min: 0, step: '.01', value: data.charityAmount, full: true })}</fieldset>` + field('deductionNotes', 'Anything else we should know?', { type: 'textarea', required: false, full: true, value: data.deductionNotes, maxlength: 2000 });
 }
 function requestedDocuments() {
   const list = ['Prior-year tax return'];
@@ -296,15 +315,19 @@ function renderIntake(focus = false) {
   if (step === 3) fields = deductionFields(data);
   if (step === 4) fields = documentFields(data);
   if (step === 5) fields = reviewFields();
-  root.innerHTML = `<div class="step-top"><span>Step ${step + 1} of ${steps.length}</span><span>Progress stays in this page</span></div><div class="progress-track" role="progressbar" aria-label="Organizer progress" aria-valuenow="${step}" aria-valuemin="0" aria-valuemax="6"><span style="width:${step / 6 * 100}%"></span></div><h2 tabindex="-1">${steps[step]}</h2><p class="section-description">${descriptions[step]}</p><form id="intake-form" novalidate><div class="fields">${fields}</div><div class="form-actions">${step ? '<button type="button" class="secondary" id="back-step">← Back</button>' : '<span class="helper">* Required fields</span>'}<button type="submit" class="primary">${step === 5 ? 'Submit organizer' : 'Continue →'}</button></div></form>`;
+  root.innerHTML = `<div class="step-top"><span>Step ${step + 1} of ${steps.length}</span><span>Progress stays in this page</span></div><div class="progress-track" role="progressbar" aria-label="Organizer progress" aria-valuenow="${step}" aria-valuemin="0" aria-valuemax="6"><span style="width:${step / 6 * 100}%"></span></div><h2 tabindex="-1">${steps[step]}</h2><p class="section-description">${descriptions[step]}</p><form id="intake-form" novalidate ${declarativeForm(step === 5 ? 'submit_tax_intake' : `complete_tax_${stepKeys[step]}`, step === 5 ? 'Sign with the same first and last name as Personal details and confirm review to submit this fictional organizer. Nothing is filed.' : `Complete the visible ${steps[step]} form and continue to the next organizer step. Use its current fields and fictional data. Conditional choices can reveal additional required fields; use update_tax_step to prepare those branches or add_tax_dependent to add dependents first.`)}><div class="fields">${fields}</div><div class="form-actions">${step ? '<button type="button" class="secondary" id="back-step">← Back</button>' : '<span class="helper">* Required fields</span>'}<button type="submit" class="primary">${step === 5 ? 'Submit organizer' : 'Continue →'}</button></div></form>`;
   if (focus) root.querySelector('h2').focus();
   const form = root.querySelector('form');
-  form.onsubmit = event => { event.preventDefault(); safely(() => nextIntake('ui')); };
+  form.onsubmit = event => submitForm(event, source => { syncIntakeConditions(); return nextIntake(source); });
   root.querySelector('#back-step')?.addEventListener('click', () => { saveCurrent(); intake.step--; record('step_back'); renderIntake(true); });
-  root.querySelector('#filingStatus')?.addEventListener('change', () => { saveCurrent(); cleanConditional(); renderIntake(); root.querySelector('#filingStatus').focus(); });
-  root.querySelectorAll('input[name="sources"],input[name="deductions"]').forEach(input => input.onchange = () => {
-    if (input.checked) form.querySelectorAll(`input[name="${input.name}"]`).forEach(other => { if (other !== input && (input.value === 'none' || other.value === 'none')) other.checked = false; });
-    saveCurrent(); cleanConditional(); const name = input.name, value = input.value; renderIntake(); root.querySelector(`input[name="${name}"][value="${value}"]`).focus();
+  root.querySelector('#filingStatus')?.addEventListener('change', () => { syncIntakeConditions(); saveCurrent(); cleanConditional(); });
+  root.querySelectorAll('input[name="sources"],input[name="deductions"]').forEach(input => {
+    // Normal checkbox activation keeps "None" exclusive. Native form autofill
+    // dispatches input/change, not click: validate its complete selection as given.
+    input.onclick = () => {
+      if (input.checked) form.querySelectorAll(`input[name="${input.name}"]`).forEach(other => { if (other !== input && (input.value === 'none' || other.value === 'none')) other.checked = false; });
+    };
+    input.onchange = () => { syncIntakeConditions(); saveCurrent(); cleanConditional(); };
   });
   root.querySelector('#add-dependent')?.addEventListener('click', () => safely(() => addDependent({}, 'ui')));
   root.querySelectorAll('[data-remove-dependent]').forEach(button => button.onclick = () => { saveCurrent(); intake.dependents.splice(Number(button.dataset.removeDependent), 1); record('dependent_removed'); renderIntake(); });
@@ -317,6 +340,21 @@ function renderIntake(focus = false) {
   }));
   root.querySelectorAll('[data-remove-file]').forEach(button => button.onclick = () => { saveCurrent(); intake.files.splice(Number(button.dataset.removeFile), 1); record('sample_file_removed'); renderIntake(); });
   root.querySelectorAll('[data-edit-step]').forEach(button => button.onclick = () => { saveCurrent(); intake.step = Number(button.dataset.editStep); record('review_edited'); renderIntake(true); });
+}
+function syncIntakeConditions() {
+  const active = {
+    spouse: ['joint', 'separate'].includes(root.querySelector('#filingStatus')?.value),
+    business: Boolean(root.querySelector('input[name="sources"][value="selfEmployment"]')?.checked),
+    charity: Boolean(root.querySelector('input[name="deductions"][value="charity"]')?.checked),
+  };
+  // Keep the form and its controls connected during native autofill. Replacing
+  // them in a change handler can cancel an in-flight declarative invocation.
+  for (const group of root.querySelectorAll('[data-condition]')) {
+    const enabled = active[group.dataset.condition];
+    if (!enabled && !group.disabled) for (const input of group.elements) input.value = '';
+    group.hidden = !enabled;
+    group.disabled = !enabled;
+  }
 }
 function cleanConditional() {
   const h = intake.data.household, i = intake.data.income, d = intake.data.deductions;
@@ -383,6 +421,11 @@ function updateIntake({ step, fields, advance = false }) {
 }
 
 // Native tools: feature-detected, never polyfilled. Off mode registers none of our tools.
+function updateToolStatus() {
+  if (run.registration !== 'ready') return;
+  const formCount = root.querySelectorAll('form[toolname][tooldescription]').length;
+  document.querySelector('#webmcp-status').textContent = `Native WebMCP ready · ${registeredNames.length} imperative · ${formCount} declarative`;
+}
 function getState() {
   const state = { firm: firm.slug, scenario, simulated: true, completed: Boolean(receipt), receipt, fields: formSchema() };
   if (scenario === 'tax-intake') Object.assign(state, { currentStep: stepKeys[intake.step], reachedSteps: stepKeys.slice(0, intake.furthest + 1), values: root.querySelector('form') ? formData(root.querySelector('form')) : {}, dependents: intake.dependents, requestedDocuments: requestedDocuments(), files: intake.files });
@@ -400,7 +443,6 @@ async function registerTools() {
   if (!enabled) { run.registration = 'disabled'; status.textContent = 'Browser-only mode'; return; }
   if (!native?.registerTool) { run.registration = 'unsupported'; status.textContent = 'Native WebMCP unavailable'; return; }
   const tools = [{ name: 'get_scenario_state', description: 'Read the current fictional accounting workflow, current step, exact field schema, available choices, and completion status. Test data only.', inputSchema: objectSchema({}), execute: getState }];
-  if (scenario === 'contact-me') tools.push({ name: 'submit_contact_inquiry', description: 'Complete this fictional firm contact form. Fills the visible fields, uses the same validation as the UI, and displays a simulated confirmation. No message is sent.', inputSchema: formSchema(), execute: submitContact });
   if (scenario === 'book-meeting') {
     const scheduling = { appointmentType: { type: 'string', enum: ['intro', 'tax', 'books'] }, timeZone: { type: 'string', enum: zones.map(([key]) => key) } };
     tools.push({ name: 'get_available_appointments', description: 'List available fictional appointment slots with exact UTC slotIds and local date/time labels. Optionally narrow by YYYY-MM-DD startDate/endDate. All slots are within the sample’s 60-day calendar.', inputSchema: objectSchema({ ...scheduling, startDate: string('First local date, YYYY-MM-DD'), endDate: string('Last local date, YYYY-MM-DD') }), execute: getAvailability });
@@ -410,7 +452,6 @@ async function registerTools() {
     tools.push({ name: 'update_tax_step', description: 'Fill the current organizer step. Read get_scenario_state first for its exact field names, types, and choices. Supports conditional spouse, business, and charity fields in the same call as their selector. advance:true validates and moves to the next step, except final submission.', inputSchema: { ...objectSchema({ step: { type: 'string', enum: stepKeys }, fields: { type: 'object', description: 'Fields from the current step schema; boolean consent, arrays for sources/deductions, strings for other fields.', additionalProperties: true }, advance: { type: 'boolean' } }), required: ['step', 'fields'] }, execute: updateIntake });
     tools.push({ name: 'add_tax_dependent', description: 'Add a dependent on the Household step. Each added dependent exposes named fields in get_scenario_state. Test identities only.', inputSchema: objectSchema({ name: string('Full name'), dob: string('Date of birth, YYYY-MM-DD'), relationship: { type: 'string', enum: ['Child', 'Parent', 'Other relative'] }, months: string('Months living with taxpayer, 0 to 12') }), execute: addDependent });
     tools.push({ name: 'go_to_tax_step', description: 'Return to an already reached organizer step for review or editing. Forward navigation validates intervening steps.', inputSchema: { ...objectSchema({ step: { type: 'string', enum: stepKeys } }), required: ['step'] }, execute: ({ step }) => goToStep(stepKeys.indexOf(step)) });
-    tools.push({ name: 'submit_tax_intake', description: 'At Review & submit, sign with the taxpayer’s full name and confirm review to complete the simulated organizer. All prior steps must be valid. No tax return is filed.', inputSchema: { ...objectSchema({ signature: string('Same first and last name as Personal details'), consent: { type: 'boolean', description: 'Must be true' } }), required: ['signature', 'consent'] }, execute: values => { if (receipt) return receipt; if (intake.step !== 5) fail('Complete each organizer step before submitting.'); fill(root.querySelector('form'), values); return nextIntake(); } });
   }
   try {
     for (const tool of tools) {
@@ -421,7 +462,7 @@ async function registerTools() {
       } }, { signal: controller.signal });
       registeredNames.push(tool.name);
     }
-    run.registration = 'ready'; status.textContent = `Native WebMCP ready · ${registeredNames.length} tools`;
+    run.registration = 'ready'; updateToolStatus();
   } catch {
     controller.abort();
     if (native.unregisterTool) for (const name of registeredNames) native.unregisterTool(name);
@@ -446,11 +487,18 @@ document.querySelector('#export-run').onclick = () => {
   const url = URL.createObjectURL(blob); const link = document.createElement('a');
   link.href = url; link.download = `${firm.slug}-${scenario}-${run.mode}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
-root.addEventListener('change', event => { if (event.isTrusted && event.target.name) record(`field_changed:${event.target.name}`); });
+root.addEventListener('change', event => { if (event.isTrusted && event.target.name) record(`field_changed:${event.target.name}`, 'form'); });
 if (scenario === 'contact-me') renderContact();
 else if (scenario === 'book-meeting') renderBooking();
 else renderIntake();
 // Harness-readable observation only; it exposes no alternate way to mutate the workflow.
 Object.defineProperty(window, '__accountingBenchmark', { get: () => structuredClone(run) });
 await registerTools();
+new MutationObserver(updateToolStatus).observe(root, { childList: true, subtree: true });
+window.addEventListener('toolactivated', event => {
+  if (root.querySelector('form')?.getAttribute('toolname') === event.toolName) record(`tool_activated:${event.toolName}`, 'declarative-webmcp');
+});
+window.addEventListener('toolcancel', event => {
+  if (root.querySelector('form')?.getAttribute('toolname') === event.toolName) record(`tool_cancelled:${event.toolName}`, 'declarative-webmcp');
+});
 window.addEventListener('pagehide', event => { if (!event.persisted) controller.abort(); });

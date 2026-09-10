@@ -32,7 +32,7 @@ and vary deterministically with firm and date. Slot IDs are exact UTC instants;
 labels reflect the selected IANA time zone, including daylight saving changes.
 A pinned historical date remains usable intentionally, for repeatable experiments.
 
-Browser-only mode does not register these scenario tools. It does not disable
+Browser-only mode omits the form tool annotations and registers no imperative scenario tools. It does not disable
 unrelated tools injected by extensions or Cloudflare. Inspect the complete tool list
 in the actual test environment and keep unrelated tools out of the agent's allowlist.
 Both modes call the same application validators and submission functions. Native
@@ -46,16 +46,51 @@ describe browser flags/origin trials. The local suite runs real Chromium WebMCP
 with `--enable-blink-features=WebMCP,WebMCPTesting` and
 `--enable-experimental-web-platform-features`, rather than mocking registration.
 
-| Scenario | Tool | Purpose |
-| --- | --- | --- |
-| Every page | `get_scenario_state` | Inspect progress, current field schema and completion |
-| Contact | `submit_contact_inquiry` | Fill, validate and simulate sending a contact form |
-| Booking | `get_available_appointments` | Discover slots for a type/date range/time zone |
-| Booking | `book_appointment` | Select an available slot and confirm attendee details |
-| Intake | `update_tax_step` | Update the current step, optionally validate and advance |
-| Intake | `add_tax_dependent` | Add a dependent on the Household step |
-| Intake | `go_to_tax_step` | Revisit a reached step; forward moves validate intervening steps |
-| Intake | `submit_tax_intake` | Validate signature/consent and submit at Review |
+| Scenario | API | Tool | Purpose |
+| --- | --- | --- | --- |
+| Every page | Imperative | `get_scenario_state` | Inspect progress, current field schema and completion |
+| Contact | Declarative | `submit_contact_inquiry` | Validate the visible contact form and show its simulated confirmation |
+| Booking | Imperative | `get_available_appointments` | Discover slots for a type/date range/time zone |
+| Booking | Imperative | `book_appointment` | Select an available slot and confirm attendee details in one call |
+| Booking details | Declarative | `confirm_appointment` | Confirm the currently selected appointment using the visible attendee form |
+| Intake | Imperative | `update_tax_step` | Update the current step, optionally validate and advance |
+| Intake | Imperative | `add_tax_dependent` | Add a dependent on the Household step |
+| Intake | Imperative | `go_to_tax_step` | Revisit a reached step; forward moves validate intervening steps |
+| Personal details | Declarative | `complete_tax_personal` | Submit the current form and advance |
+| Household | Declarative | `complete_tax_household` | Submit filing status, visible spouse fields and existing dependents |
+| Income | Declarative | `complete_tax_income` | Submit income selections and visible business details |
+| Deductions | Declarative | `complete_tax_deductions` | Submit deductions and visible donation amount |
+| Documents | Declarative | `complete_tax_documents` | Submit the document plan and notes |
+| Review | Declarative | `submit_tax_intake` | Validate signature/consent and submit the organizer |
+
+### Declarative form behavior
+
+The forms follow [Chrome's declarative API](https://developer.chrome.com/docs/ai/webmcp/declarative-api):
+`toolname` and `tooldescription` expose the form, `toolparamdescription` explains fields,
+and `toolautosubmit` allows immediate submission of these fictional workflows. The submit
+handler calls `preventDefault()` and synchronously supplies `respondWith()` a promise.
+It resolves with the receipt or next step's state; validation failures reject that promise
+and appear in the form. All submission paths use the same application validators.
+
+Contact submission and final organizer submission keep their existing tool names but now
+use HTML registration. They have no duplicate imperative registrations. Form tools exist
+only while their form is displayed: rediscover tools after each step or navigation.
+Completed forms disappear; `get_scenario_state` continues to return the saved receipt.
+The experiment footer counts imperative and declarative tools separately.
+
+The browser generates each form's input schema from its controls. Use that generated
+schema for declarative calls: numeric controls take numbers, single checkboxes take
+booleans, and checkbox groups take arrays. The `get_scenario_state.fields` schema remains
+the input reference for the imperative `update_tax_step` helper.
+
+Prepare conditional branches with `update_tax_step` (without `advance`) or the visible
+controls, and add dependents before invoking the corresponding form tool. Spouse,
+business, and donation controls stay in the DOM; inactive groups are hidden and disabled,
+so they are omitted from form data and tool schemas. Changing a branch during native
+autofill retains the active form and still validates newly required fields. Choosing an
+incomplete branch returns an error and leaves those fields visible for correction.
+The unnamed file picker is excluded from tool parameters; selecting actual sample files
+continues to require browser interaction.
 
 Intake progresses through personal details, household, income, deductions,
 documents, and review. Spouse fields appear for married statuses; business fields
@@ -67,7 +102,7 @@ interaction; no tool fabricates an uploaded document or accepts local filesystem
 For dependent fields, add the dependent first, then inspect `get_scenario_state`.
 For conditional branches, `update_tax_step` accepts the selector and its newly
 revealed fields in one call. Other unknown fields fail. A successful submission
-returns a stable receipt within that page; retries do not create additional receipts.
+returns a stable receipt within that page, available through `get_scenario_state` after the form is removed.
 
 ## Suggested shared fixture
 
@@ -91,7 +126,11 @@ Every sample has Reset and Download run record controls. A read-only
 `window.__accountingBenchmark` snapshot also lets a harness observe completion.
 Records include firm, scenario, mode, native registration state, calendar anchor,
 start/finish time, elapsed milliseconds and named UI/tool events. They exclude
-entered values, filenames, contact information and taxpayer details.
+entered values, filenames, contact information and taxpayer details. Declarative tool
+submissions and validation errors use the `declarative-webmcp` event source; imperative
+tool events use `webmcp`. DOM field changes use `form`, since native autofill can emit
+the same trusted change events as a person. These are application event sources, not
+proof of which actor changed a field.
 
 Elapsed time begins when the page script runs and includes idle time and tool discovery.
 Events represent application events, not a normalized count of agent actions.
@@ -108,8 +147,12 @@ functionality; it does not establish an efficiency advantage.
 - `static/css/scenarios.css`: five responsive visual identities.
 - `static/js/scenarios.mjs`: application actions, validation, calendars, organizer and tools.
 - `tests/test_scenarios.py`, `tests/integration/scenarios.spec.mjs`: routes, browser workflows,
-  real native tool completion, validation, baseline isolation, reset, responsive layout,
-  no-network submissions, and timezone/DST checks.
+  baseline isolation, reset, responsive layout, no-network submissions, and redirects.
+- `tests/integration/scenarios-native.spec.mjs`: native imperative helpers, shared form
+  submissions, validation, and timezone/DST checks.
+- `tests/integration/scenarios-declarative.spec.mjs`: real browser-generated schemas,
+  all forms across all five firms, conditional inputs, submission errors and recovery,
+  tool lifecycle, and browser-only isolation.
 
 Run `npm test`, then `npm run build`. On this environment, Chromium requires
 `LD_LIBRARY_PATH=/tmp/augmentic-browser-libs/usr/lib/x86_64-linux-gnu`.
@@ -183,3 +226,13 @@ The release used the isolated production staging tree, preserving the existing
 Worker and configuration. The previous production version is
 `b1c5cbb1-a73f-415e-b79e-b30e4584f944`. The temporary Cloudflare credential
 file and deployment wrapper were deleted after successful live verification.
+
+## Declarative form validation — 2026-09-10
+
+The committed site baseline plus the declarative form changes passed 12 Python tests
+and all 43 browser checks against a local Worker. Coverage includes the existing MCP
+server/demo, every scenario's ordinary controls, the original native helpers, and nine
+new declarative checks. The new checks exercise all forms across all five firms,
+browser-generated schemas, dynamic branches, validation/recovery, tool removal after
+completion, back navigation, reset, and browser-only mode. A conditional household form
+also fit a 390 px viewport. These changes have not been deployed.
