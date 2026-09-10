@@ -23,6 +23,7 @@ from fastapi.routing import APIRoute  # noqa: E402
 
 from main import app  # noqa: E402
 from site_content import ORIGIN, load_articles  # noqa: E402
+from scenario_firms import SCENARIO_REDIRECTS  # noqa: E402
 
 
 def output_file_for(route: str, dist: Path = DIST) -> Path:
@@ -43,6 +44,7 @@ def collect_routes(articles: Path = ARTICLES) -> set[str]:
         route.path
         for route in app.routes
         if isinstance(route, APIRoute) and "{" not in route.path
+        and route.status_code not in {301, 302, 303, 307, 308}
     }
 
     for year_directory in articles.iterdir():
@@ -91,6 +93,12 @@ def build_static(dist: Path = DIST) -> set[str]:
     index.parent.mkdir(parents=True, exist_ok=True)
     index.write_text(
         json.dumps(load_articles(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    # Workers Static Assets processes redirects before serving static pages.
+    # Keep the old URLs out of the generated page tree and sitemap.
+    (dist / "_redirects").write_text(
+        "".join(f"{source} {target} 301\n" for source, target in sorted(SCENARIO_REDIRECTS.items())),
+        encoding="utf-8",
     )
     write_crawler_files(routes, dist)
     return routes

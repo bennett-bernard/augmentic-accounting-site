@@ -187,3 +187,13 @@ shared article behavior to `static/js/article-catalog.mjs`. Keep browser-only
 UI operations in `static/js/agent-demo.mjs`. If the MCP endpoint is deployed
 under another hostname, update the allowed hostname/origin lists in
 `worker.mjs` and the canonical domain in `site_content.py` before deploying.
+
+## Accounting WebMCP experiment samples
+
+`/webmcp` links to 15 working samples: five fictional firms, each with contact,
+appointment booking, and a six-step individual tax organizer. Use `?webmcp=off`
+for the same experience without the scenario's native tools. Booking supports a
+pinned `?date=YYYY-MM-DD` for paired runs. These are page-local simulations using
+fictional data; no inquiries, appointments, uploads, or tax returns are sent.
+See [the scenario guide](docs/webmcp-scenarios.md) for all URLs, tools, fixtures,
+measurement limits, and isolated-deployment notes.

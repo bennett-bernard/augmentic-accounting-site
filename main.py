@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from markdown import markdown
 from fastapi.staticfiles import StaticFiles
@@ -7,6 +8,7 @@ import mimetypes
 import os
 import frontmatter
 from site_content import load_articles
+from scenario_firms import FIRMS, SCENARIOS, SCENARIO_ROOT, SCENARIO_REDIRECTS
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -205,3 +207,31 @@ def get_article(request: Request, year: str, month: str, article_name: str):
         template,
         {"content": html_content, "metadata": post.metadata},
     )
+
+
+@app.get(SCENARIO_ROOT)
+def webmcp_lab(request: Request):
+    return templates.TemplateResponse(request, "scenario-lab.html", {"firms": FIRMS, "scenarios": SCENARIOS, "scenario_root": SCENARIO_ROOT})
+
+
+def _scenario_endpoint(firm, scenario):
+    def page(request: Request):
+        return templates.TemplateResponse(request, "scenario.html", {"firm": firm, "scenario": scenario, "scenarios": SCENARIOS, "scenario_root": SCENARIO_ROOT})
+    return page
+
+
+def _scenario_redirect(target):
+    def redirect(request: Request):
+        query = f"?{request.url.query}" if request.url.query else ""
+        return RedirectResponse(target + query, status_code=301)
+    return redirect
+
+
+# Concrete routes are also discovered by the static builder.
+for _firm in FIRMS:
+    for _scenario in SCENARIOS:
+        app.add_api_route(f"{SCENARIO_ROOT}/{_firm['slug']}/{_scenario}", _scenario_endpoint(_firm, _scenario), methods=["GET"], name=f"sample_{_firm['slug']}_{_scenario}")
+    app.add_api_route(f"{SCENARIO_ROOT}/{_firm['slug']}", _scenario_endpoint(_firm, "contact-me"), methods=["GET"], name=f"sample_{_firm['slug']}")
+
+for _old_path, _target in SCENARIO_REDIRECTS.items():
+    app.add_api_route(_old_path, _scenario_redirect(_target), methods=["GET"], status_code=301, include_in_schema=False)

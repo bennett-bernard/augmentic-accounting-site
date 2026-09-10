@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ scenarios[scenario] }} | {{ firm.name }}</title>
+  <meta name="description" content="{{ firm.name }} — {{ scenarios[scenario] }}. A fictional accounting firm for browser interaction testing.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="/static/css/scenarios.css">
+  <script id="scenario-config" type="application/json">{{ {"firm": firm, "scenario": scenario}|tojson }}</script>
+  <script type="module" src="/static/js/scenarios.mjs"></script>
+</head>
+<body class="theme-{{ firm.theme }} scenario-{{ scenario }}">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="demo-notice">Fictional firm · Use test data only · Nothing is sent or booked <a href="{{ scenario_root }}" data-preserve-mode>All samples ↗</a></div>
+<div class="firm-topline"><span>{{ firm.city }}</span><span>Personal service since {{ firm.since }} &nbsp; | &nbsp; {{ firm.phone }}</span></div>
+<header class="firm-header">
+  <a class="brand" href="{{ scenario_root }}/{{ firm.slug }}/contact-me" data-preserve-mode><span class="brand-mark" aria-hidden="true">{{ firm.monogram }}</span><span class="brand-words">{{ firm.name }}<small>{{ firm.descriptor }}</small></span></a>
+  <nav aria-label="Firm navigation">{% for slug, label in scenarios.items() %}<a href="{{ scenario_root }}/{{ firm.slug }}/{{ slug }}" data-preserve-mode {% if scenario == slug %}aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}</nav>
+</header>
+<main id="main" tabindex="-1">
+{% if scenario == 'contact-me' %}
+<section class="contact-layout page-width">
+  <aside class="contact-story">
+    <p class="eyebrow">LET'S START A CONVERSATION</p><h1>{{ firm.tagline }}</h1><p class="lead">{{ firm.intro }}</p>
+    <div class="advisor"><span class="avatar">{{ firm.initials }}</span><div><strong>{{ firm.advisor }}</strong><span>Your first point of contact</span></div></div>
+    <div class="office-details"><p><span>OUR OFFICE</span>{{ firm.city }}</p><p><span>GIVE US A CALL</span>{{ firm.phone }}</p><p><span>OFFICE HOURS</span>Monday–Friday, 9 am–5 pm</p></div>
+    <blockquote>{{ firm.promise }}</blockquote>
+  </aside>
+  <section class="form-card contact-card"><p class="eyebrow">HOW CAN WE HELP?</p><h2>Tell us a little about yourself.</h2><p class="muted">Start here, and we'll take it from there. Fields marked * are required.</p><div id="workflow"></div></section>
+</section>
+{% elif scenario == 'book-meeting' %}
+<section class="booking-intro page-width"><p class="eyebrow">A LITTLE TIME. A CLEARER PICTURE.</p><h1>Let's find a time to talk.</h1><p class="lead">Choose a meeting and a time that works for you.</p></section>
+<section class="booking-layout page-width">
+  <aside class="meeting-profile"><span class="avatar avatar-large">{{ firm.initials }}</span><p class="eyebrow">MEET WITH</p><h2>{{ firm.advisor }}</h2><p>{{ firm.name }}</p><hr><h3>What to expect</h3><p>A chance to share your priorities, ask questions, and explore how we can help.</p><p class="meeting-detail">Video call or phone meeting</p><p class="meeting-detail">No preparation needed for an introduction</p><blockquote>{{ firm.promise }}</blockquote></aside>
+  <section class="form-card booking-card"><div id="workflow"></div></section>
+</section>
+{% else %}
+<div class="portal-heading page-width"><div><p class="eyebrow">YOUR CLIENT ORGANIZER</p><h1>Individual tax intake</h1><p class="muted">A few details now. A smoother tax season ahead.</p></div><span class="portal-tag">FORM 1040 · TEST WORKSPACE</span></div>
+<section class="intake-layout page-width"><aside class="intake-sidebar"><nav id="intake-steps" aria-label="Tax organizer steps"></nav><div class="intake-help"><strong>A question along the way?</strong><p>Your advisor is {{ firm.advisor }}.</p><span>{{ firm.phone }}</span></div></aside><section class="form-card intake-card"><div id="workflow"></div></section></section>
+{% endif %}
+</main>
+<footer class="firm-footer page-width"><div class="footer-brand">{{ firm.name }}<span>{{ firm.services }}</span></div><p>Fictional practice created by Augmentic Accounting.<br>Submissions stay in this page and clear on reload.</p></footer>
+<details class="experiment-panel page-width"><summary>Experiment controls <span id="webmcp-status">Checking WebMCP…</span></summary><div class="experiment-controls"><p id="mode-note"></p><a id="mode-link" href="?webmcp=off">Use browser-only mode</a><button type="button" id="reset-run" class="secondary">Reset this sample</button><button type="button" id="export-run" class="secondary">Download run record</button><output id="run-status" aria-live="polite">Ready</output></div></details>
+<noscript><p class="no-script">JavaScript is required for these interactive test forms.</p></noscript>
+</body></html>
