@@ -75,6 +75,7 @@ def build_static(dist: Path = DIST) -> set[str]:
 
     dist.mkdir(parents=True)
 
+    noindex_routes: set[str] = set()
     with TestClient(app, base_url=ORIGIN) as client:
         for route in sorted(routes):
             response = client.get(route)
@@ -83,6 +84,10 @@ def build_static(dist: Path = DIST) -> set[str]:
             # FastAPI's url_for generates absolute URLs. Root-relative links
             # work on both workers.dev previews and the production domain.
             html = response.text.replace(ORIGIN, "")
+            # Canonical URLs must stay absolute on the production origin.
+            html = html.replace('rel="canonical" href="/', f'rel="canonical" href="{ORIGIN}/')
+            if 'name="robots" content="noindex' in html:
+                noindex_routes.add(route)
 
             output_file = output_file_for(route, dist)
             output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -100,7 +105,8 @@ def build_static(dist: Path = DIST) -> set[str]:
         "".join(f"{source} {target} 301\n" for source, target in sorted(SCENARIO_REDIRECTS.items())),
         encoding="utf-8",
     )
-    write_crawler_files(routes, dist)
+    # noindex pages (e.g. WebMCP demo firms) don't belong in the sitemap.
+    write_crawler_files(routes - noindex_routes, dist)
     return routes
 
 

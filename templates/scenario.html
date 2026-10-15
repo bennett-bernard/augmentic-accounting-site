@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/static/css/scenarios.css">
   <script id="scenario-config" type="application/json">{{ {"firm": firm, "scenario": scenario}|tojson }}</script>
   <script type="module" src="/static/js/scenarios.mjs"></script>
+    <link rel="canonical" href="https://augmenticaccounting.com{{ request.url.path.rstrip('/') or '/' }}">
 </head>
 <body class="theme-{{ firm.theme }} scenario-{{ scenario }}">
 <a class="skip-link" href="#main">Skip to content</a>
